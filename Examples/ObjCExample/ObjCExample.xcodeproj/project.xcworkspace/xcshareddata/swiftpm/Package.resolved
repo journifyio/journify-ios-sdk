@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "journify-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/journifyio/journify-ios-sdk",
+      "state" : {
+        "branch" : "rename",
+        "revision" : "8b912f8946f0d9080b3bdf7c6f6a9b79ac8d9bec"
+      }
+    },
+    {
+      "identity" : "sovran-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/segmentio/Sovran-Swift.git",
+      "state" : {
+        "revision" : "944c17d7c46bd95fc37f09136cabd172be5b413b",
+        "version" : "1.0.3"
+      }
+    }
+  ],
+  "version" : 2
+}
