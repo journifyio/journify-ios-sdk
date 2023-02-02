@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "fakery",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vadymmarkov/Fakery",
+      "state" : {
+        "revision" : "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "journify-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/journifyio/journify-ios-sdk",
+      "state" : {
+        "branch" : "main",
+        "revision" : "fe4a8ed6005fc64c8e00487d53f9db26819516eb"
+      }
+    },
+    {
+      "identity" : "sovran-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/segmentio/Sovran-Swift.git",
+      "state" : {
+        "revision" : "944c17d7c46bd95fc37f09136cabd172be5b413b",
+        "version" : "1.0.3"
+      }
+    }
+  ],
+  "version" : 2
+}
