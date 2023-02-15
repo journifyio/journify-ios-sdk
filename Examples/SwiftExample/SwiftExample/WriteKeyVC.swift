@@ -15,7 +15,9 @@ class WriteKeyVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if let writeKey = UserDefaults.standard.object(forKey: "WriteKey") as? String {
+            self.writeKeyTextField.text = writeKey
+        }
     }
 
     @IBAction func StartTapped(_ sender: Any) {
@@ -27,13 +29,23 @@ class WriteKeyVC: UIViewController {
             startButton.shake()
             return
         }
+        UserDefaults.standard.set(writeKey, forKey: "WriteKey")
+        UserDefaults.standard.synchronize()
+        initJournify(writeKey: writeKey)
+        pushViewController()
+    }
+    
+    func initJournify(writeKey: String) {
         //init Journify
         let configuration = Configuration(writeKey: writeKey)
             .trackApplicationLifecycleEvents(true)
             .flushInterval(10)
         
+        Journify.debugLogsEnabled = true
         Journify.setup(with: configuration)
-        
+    }
+    
+    func pushViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "ViewController")
         self.navigationController?.show(viewController, sender: self)
