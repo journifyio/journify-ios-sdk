@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Journify for Swift" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jct-cL-SxL">
-                                <rect key="frame" x="0.0" y="44" width="337.66666666666669" height="47"/>
+                                <rect key="frame" x="0.0" y="44" width="428" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="86Z-QP-2UN"/>
                                 </constraints>
@@ -25,7 +25,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q7H-aA-2K2">
-                                <rect key="frame" x="20" y="134" width="135" height="53.666666666666657"/>
+                                <rect key="frame" x="20" y="134" width="171.33333333333334" height="53.666666666666657"/>
                                 <color key="backgroundColor" red="0.97254901960784312" green="0.082352941176470587" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="Add Product">
@@ -36,7 +36,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4Y-ae-cWA">
-                                <rect key="frame" x="215" y="134" width="135" height="53.666666666666657"/>
+                                <rect key="frame" x="251.33333333333337" y="134" width="171" height="53.666666666666657"/>
                                 <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="Start Checkout">
@@ -47,7 +47,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2S-T2-BKq">
-                                <rect key="frame" x="20" y="261.33333333333331" width="135" height="53.666666666666686"/>
+                                <rect key="frame" x="20" y="261.33333333333331" width="171.33333333333334" height="53.666666666666686"/>
                                 <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="IDENTIFY">
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGk-oS-tJG">
-                                <rect key="frame" x="215" y="261.33333333333331" width="135" height="53.666666666666686"/>
+                                <rect key="frame" x="251.33333333333337" y="261.33333333333331" width="171" height="53.666666666666686"/>
                                 <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="Page">
@@ -69,7 +69,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXs-yc-7yF">
-                                <rect key="frame" x="20" y="197.66666666666666" width="135" height="53.666666666666657"/>
+                                <rect key="frame" x="20" y="197.66666666666666" width="171.33333333333334" height="53.666666666666657"/>
                                 <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="Complete Order">
@@ -80,7 +80,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SP-XZ-74H">
-                                <rect key="frame" x="16" y="335" width="305.66666666666669" height="54"/>
+                                <rect key="frame" x="16" y="335" width="396" height="54"/>
                                 <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="FLUSH">
@@ -91,7 +91,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pg4-tQ-ewv">
-                                <rect key="frame" x="16" y="455" width="305.66666666666669" height="437"/>
+                                <rect key="frame" x="16" y="455" width="396" height="437"/>
                                 <color key="backgroundColor" red="0.098283879460000001" green="0.030908808110000002" blue="0.18824732299999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -164,9 +164,8 @@
         <!--Navigation Controller-->
         <scene sceneID="aEr-q2-cvJ">
             <objects>
-                <navigationController id="TJ6-qn-SBu" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="TJ6-qn-SBu" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0ge-rj-rNb">
-                        <rect key="frame" x="0.0" y="47" width="428" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -186,7 +185,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Journify for Swift" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pQ-DI-ewD">
-                                <rect key="frame" x="0.0" y="48" width="428" height="47"/>
+                                <rect key="frame" x="0.0" y="90" width="428" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="G9V-xO-JYd"/>
                                 </constraints>
@@ -223,7 +222,7 @@
                         <color key="backgroundColor" red="0.97254901959999995" green="0.08235294118" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="ouu-EX-4RT" firstAttribute="leading" secondItem="Ajs-tc-HkZ" secondAttribute="leading" id="2co-SK-6LB"/>
-                            <constraint firstItem="2pQ-DI-ewD" firstAttribute="top" secondItem="4jw-sJ-0Ed" secondAttribute="topMargin" constant="-43" id="Cmh-Y6-mNe"/>
+                            <constraint firstItem="2pQ-DI-ewD" firstAttribute="top" secondItem="aIy-0X-oLW" secondAttribute="top" constant="43" id="Cmh-Y6-mNe"/>
                             <constraint firstItem="ouu-EX-4RT" firstAttribute="leading" secondItem="aIy-0X-oLW" secondAttribute="leading" constant="40" id="U9G-mE-Wgw"/>
                             <constraint firstItem="ouu-EX-4RT" firstAttribute="trailing" secondItem="Ajs-tc-HkZ" secondAttribute="trailing" id="Z0U-ev-Bs4"/>
                             <constraint firstItem="2pQ-DI-ewD" firstAttribute="leading" secondItem="aIy-0X-oLW" secondAttribute="leading" id="hT2-C9-KY3"/>
