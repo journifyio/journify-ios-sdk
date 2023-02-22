@@ -11,7 +11,6 @@ import XCTest
 
 final class LogTarget_Tests: XCTestCase {
     
-    var analytics: Analytics?
     let mockLogger = LoggerMockPlugin()
     
     class LoggerMockPlugin: JournifyLog {
@@ -30,8 +29,8 @@ final class LogTarget_Tests: XCTestCase {
     }
     
     override func setUp() {
-        analytics = Analytics(configuration: Configuration(writeKey: "test"))
-        analytics?.add(plugin: mockLogger)
+        Journify.setup(with: Configuration(writeKey: "test"))
+        Journify.shared().add(plugin: mockLogger)
         
         // Enable logging for all tests
         JournifyLog.loggingEnabled = true
@@ -57,7 +56,7 @@ final class LogTarget_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.metric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
+        Journify.shared().metric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -74,7 +73,7 @@ final class LogTarget_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.history(event: TrackEvent(event: "Tester", properties: nil), sender: self)
+        Journify.shared().history(event: TrackEvent(event: "Tester", properties: nil), sender: self)
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -95,10 +94,10 @@ final class LogTarget_Tests: XCTestCase {
             XCTFail("This should not be called")
         })
         let loggingType = LoggingType.log
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         // Act
-        analytics?.log(message: "Should hit our proper target")
+        Journify.shared().log(message: "Should hit our proper target")
     }
 
     func testMetricDisabled() {
@@ -118,10 +117,10 @@ final class LogTarget_Tests: XCTestCase {
             XCTFail("This should not be called")
         })
         let loggingType = LoggingType.log
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         // Act
-        analytics?.metric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
+        Journify.shared().metric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
     }
     
     func testHistoryDisabled() {
@@ -141,10 +140,10 @@ final class LogTarget_Tests: XCTestCase {
             XCTFail("This should not be called")
         })
         let loggingType = LoggingType.log
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         // Act
-        analytics?.history(event: TrackEvent(event: "Tester", properties: nil), sender: self)
+        Journify.shared().history(event: TrackEvent(event: "Tester", properties: nil), sender: self)
     }
 
     func testLoggingDisabledByDefault() {

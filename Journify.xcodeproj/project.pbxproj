@@ -74,7 +74,7 @@
 		A3471FBE256487F000965480 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3471FBD256487F000965480 /* Configuration.swift */; };
 		A3AEE14A2580208E002386EB /* iso8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AEE1492580208E002386EB /* iso8601.swift */; };
 		OBJ_23 /* Journify.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Journify.swift */; };
-		OBJ_30 /* Analytics_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Analytics_Tests.swift */; };
+		OBJ_30 /* Journify_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Journify_Tests.swift */; };
 		OBJ_31 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XCTestManifests.swift */; };
 		OBJ_33 /* Journify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Segment::Segment::Product" /* Journify.framework */; };
 		OBJ_40 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -183,7 +183,7 @@
 		A31A16D9257976FB00C9CDDF /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		A3471FBD256487F000965480 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		A3AEE1492580208E002386EB /* iso8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iso8601.swift; sourceTree = "<group>"; };
-		OBJ_12 /* Analytics_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics_Tests.swift; sourceTree = "<group>"; };
+		OBJ_12 /* Journify_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journify_Tests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 		OBJ_11 /* Journify-Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_12 /* Analytics_Tests.swift */,
+				OBJ_12 /* Journify_Tests.swift */,
 				4658175325BA4C20006B2809 /* HTTPClient_Tests.swift */,
 				A31A16502576C47400C9CDDF /* JSON_Tests.swift */,
 				46210810260538BE00EBC4A8 /* KeyPath_Tests.swift */,
@@ -592,7 +592,7 @@
 			buildActionMask = 0;
 			files = (
 				96DBF37B26F39B5500724B0B /* Timeline_Tests.swift in Sources */,
-				OBJ_30 /* Analytics_Tests.swift in Sources */,
+				OBJ_30 /* Journify_Tests.swift in Sources */,
 				46F7486026C720F60042798E /* ObjC_Tests.swift in Sources */,
 				OBJ_31 /* XCTestManifests.swift in Sources */,
 				46B1AC6927346D3D00846DE8 /* StressTests.swift in Sources */,

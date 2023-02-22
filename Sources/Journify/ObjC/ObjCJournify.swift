@@ -42,6 +42,10 @@ public class ObjCJournify: NSObject {
     public init(wrapping analytics: Journify) {
         self.analytics = analytics
     }
+    
+    func getAnalyticObject() -> Journify {
+        return analytics
+    }
 }
 
 // MARK: - ObjC Events

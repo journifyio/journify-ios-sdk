@@ -138,7 +138,7 @@ class KeyPath_Tests: XCTestCase {
         
         // test results when context.device.id does not exist
         let event2: [String: Any] = [
-            "userId": "brandon",
+            "userId": "benMed",
             "traits": [
                 "hoot": "nanny",
                 "scribble": "licious"
@@ -187,7 +187,7 @@ class KeyPath_Tests: XCTestCase {
 
         // test results when context.device.id exists
         let event1: [String: Any] = [
-            "userId": "brandon",
+            "userId": "benMed",
             "traits": [
                 "hoot": "nanny",
                 "scribble": "licious"
@@ -199,7 +199,7 @@ class KeyPath_Tests: XCTestCase {
         let traits = dict["user_properties"] as? [String: Any]
         XCTAssertTrue(traits?["hoot"] as? String == "nanny")
         XCTAssertTrue(traits?["scribble"] as? String == "licious")
-        XCTAssertTrue(dict["user_id"] as? String == "brandon")
+        XCTAssertTrue(dict["user_id"] as? String == "benMed")
     }
     
     // useful for once-in-awhile checking, but doesn't need to be run as part of

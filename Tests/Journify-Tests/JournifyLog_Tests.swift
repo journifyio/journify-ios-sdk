@@ -11,7 +11,6 @@ import XCTest
 
 final class JournifyLog_Tests: XCTestCase {
     
-    var analytics: Analytics?
     let mockLogger = LoggerMockPlugin()
     
     class LoggerMockPlugin: JournifyLog {
@@ -30,12 +29,11 @@ final class JournifyLog_Tests: XCTestCase {
     }
     
     override func setUp() {
-        analytics = Analytics(configuration: Configuration(writeKey: "test"))
-        analytics?.add(plugin: mockLogger)
+        Journify.setup(with: Configuration(writeKey: "test"))
+        Journify.shared().add(plugin: mockLogger)
     }
     
     override func tearDown() {
-        analytics = nil
         JournifyLog.loggingEnabled = true
     }
 
@@ -53,7 +51,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.log(message: "Something Other Than Awesome")
+        Journify.shared().log(message: "Something Other Than Awesome")
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -69,7 +67,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.log(message: "Something Other Than Awesome", kind: .warning)
+        Journify.shared().log(message: "Something Other Than Awesome", kind: .warning)
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -86,7 +84,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.log(message: "Something Other Than Awesome", kind: .error)
+        Journify.shared().log(message: "Something Other Than Awesome", kind: .error)
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -126,10 +124,10 @@ final class JournifyLog_Tests: XCTestCase {
             expectation.fulfill()
         })
         let loggingType = LoggingType.log
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         // Act
-        analytics?.log(message: "Should hit our proper target")
+        Journify.shared().log(message: "Should hit our proper target")
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -149,10 +147,10 @@ final class JournifyLog_Tests: XCTestCase {
             XCTFail("Should not hit this since it was registered for history")
         })
         let loggingType = LoggingType.history
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         // Act
-        analytics?.log(message: "Should hit our proper target")
+        Journify.shared().log(message: "Should hit our proper target")
     }
         
     func testFlush() {
@@ -173,7 +171,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.flush()
+        Journify.shared().flush()
         
         wait(for: [expectation], timeout: 1.0)
     }
@@ -196,7 +194,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        analytics?.logFlush()
+        Journify.shared().logFlush()
         
         wait(for: [expectation], timeout: 1.0)
     }
@@ -214,7 +212,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        Analytics.journifyLog(message: "Should hit our proper target", kind: .warning)
+        Journify.journifyLog(message: "Should hit our proper target", kind: .warning)
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -230,7 +228,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        Analytics.journifyMetric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
+        Journify.journifyMetric(MetricType.fromString("Counter"), name: "Metric of 5", value: 5, tags: ["Test"])
         wait(for: [expectation], timeout: 1.0)
     }
 
@@ -246,7 +244,7 @@ final class JournifyLog_Tests: XCTestCase {
         }
         
         // Act
-        Analytics.journifyMetric(MetricType.fromString("Gauge"), name: "Metric of 5", value: 5, tags: ["Test"])
+        Journify.journifyMetric(MetricType.fromString("Gauge"), name: "Metric of 5", value: 5, tags: ["Test"])
         wait(for: [expectation], timeout: 1.0)
     }
     
@@ -268,9 +266,9 @@ final class JournifyLog_Tests: XCTestCase {
         let loggingType = LoggingType.log
         
         // Act
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         // Add a second time to get a duplicate error
-        analytics?.add(target: logConsoleTarget, type: loggingType)
+        Journify.shared().add(target: logConsoleTarget, type: loggingType)
         
         wait(for: [expectation], timeout: 1.0)
 

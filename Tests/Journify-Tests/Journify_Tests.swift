@@ -1,100 +1,27 @@
 import XCTest
 @testable import Journify
 
-final class Analytics_Tests: XCTestCase {
-    
-    func testBaseEventCreation() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-        let myDestination = MyDestination()
-        myDestination.add(plugin: GooberPlugin())
-        
-        analytics.add(plugin: ZiggyPlugin())
-        analytics.add(plugin: myDestination)
-        
-        let traits = MyTraits(email: "brandon@redf.net")
-        analytics.identify(userId: "brandon", traits: traits)
-    }
-    
-    func testPluginConfigure() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-        let ziggy = ZiggyPlugin()
-        let myDestination = MyDestination()
-        let goober = GooberPlugin()
-        myDestination.add(plugin: goober)
-
-        analytics.add(plugin: ziggy)
-        analytics.add(plugin: myDestination)
-        
-        XCTAssertNotNil(ziggy.analytics)
-        XCTAssertNotNil(myDestination.analytics)
-        XCTAssertNotNil(goober.analytics)
-    }
-    
-    func testPluginRemove() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-        let myDestination = MyDestination()
-        myDestination.add(plugin: GooberPlugin())
-        
-        let expectation = XCTestExpectation(description: "Ziggy Expectation")
-        let ziggy = ZiggyPlugin()
-        ziggy.completion = {
-            expectation.fulfill()
-        }
-        analytics.add(plugin: ziggy)
-        analytics.add(plugin: myDestination)
-        
-        let traits = MyTraits(email: "brandon@redf.net")
-        analytics.identify(userId: "brandon", traits: traits)
-        analytics.remove(plugin: ziggy)
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
-
-    func testDestinationEnabled() {
-        // need to clear settings for this one.
-        UserDefaults.standard.removePersistentDomain(forName: "com.journify.storage.test")
-        
-        let expectation = XCTestExpectation(description: "MyDestination Expectation")
-        let myDestination = MyDestination {
-            expectation.fulfill()
-            return true
-        }
-
-        let configuration = Configuration(writeKey: "test")
-        let analytics = Journify(configuration: configuration)
-
-        analytics.add(plugin: myDestination)
-        
-        waitUntilStarted(analytics: analytics)
-        
-        analytics.track(name: "testDestinationEnabled")
-        
-        let dest = analytics.find(key: myDestination.key)
-        XCTAssertNotNil(dest)
-        XCTAssertTrue(dest is MyDestination)
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
+final class Journify_Tests: XCTestCase {
     
     func testAnonymousId() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-        let anonId = analytics.anonymousId
+        Journify.setup(with: Configuration(writeKey: "test"))
+        let anonId = Journify.shared().anonymousId
         
         XCTAssertTrue(anonId != "")
         XCTAssertTrue(anonId.count == 36) // it's a UUID y0.
     }
     
     func testContext() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
 
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         // add a referrer
-        analytics.openURL(URL(string: "https://google.com")!)
+        Journify.shared().openURL(URL(string: "https://google.com")!)
         
-        analytics.track(name: "token check")
+        Journify.shared().track(name: "token check")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         let context = trackEvent?.context?.dictionaryValue
@@ -122,14 +49,14 @@ final class Analytics_Tests: XCTestCase {
     }
     
     func testDeviceToken() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
 
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.setDeviceToken("1234")
-        analytics.track(name: "token check")
+        Journify.shared().setDeviceToken("1234")
+        Journify.shared().track(name: "token check")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         let device = trackEvent?.context?.dictionaryValue
@@ -139,15 +66,15 @@ final class Analytics_Tests: XCTestCase {
     
     #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
     func testDeviceTokenData() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         let dataToken = UUID().asData()
-        analytics.registeredForRemoteNotifications(deviceToken: dataToken)
-        analytics.track(name: "token check")
+        Journify.shared().registeredForRemoteNotifications(deviceToken: dataToken)
+        Journify.shared().track(name: "token check")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         let device = trackEvent?.context?.dictionaryValue
@@ -157,13 +84,13 @@ final class Analytics_Tests: XCTestCase {
     #endif
     
     func testTrack() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.track(name: "test track")
+        Journify.shared().track(name: "test track")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         XCTAssertTrue(trackEvent?.event == "test track")
@@ -171,89 +98,89 @@ final class Analytics_Tests: XCTestCase {
     }
     
     func testIdentify() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
         
         let identifyEvent: IdentifyEvent? = outputReader.lastEvent as? IdentifyEvent
-        XCTAssertTrue(identifyEvent?.userId == "brandon")
+        XCTAssertTrue(identifyEvent?.userId == "BenMed")
         let traits = identifyEvent?.traits?.dictionaryValue
-        XCTAssertTrue(traits?["email"] as? String == "blah@blah.com")
+        XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
     }
 
     func testUserIdAndTraitsPersistCorrectly() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
         
         let identifyEvent: IdentifyEvent? = outputReader.lastEvent as? IdentifyEvent
-        XCTAssertTrue(identifyEvent?.userId == "brandon")
+        XCTAssertTrue(identifyEvent?.userId == "BenMed")
         let traits = identifyEvent?.traits?.dictionaryValue
-        XCTAssertTrue(traits?["email"] as? String == "blah@blah.com")
+        XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
         
-        analytics.track(name: "test")
+        Journify.shared().track(name: "test")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
-        XCTAssertTrue(trackEvent?.userId == "brandon")
+        XCTAssertTrue(trackEvent?.userId == "BenMed")
         let trackTraits = trackEvent?.context?.dictionaryValue?["traits"] as? [String: Any]
         XCTAssertNil(trackTraits)
         
-        let analyticsTraits: MyTraits? = analytics.traits()
-        XCTAssertEqual("blah@blah.com", analyticsTraits?.email)
+        let analyticsTraits: MyTraits? = Journify.shared().traits()
+        XCTAssertEqual("ben@med.com", analyticsTraits?.email)
     }
     
 
     func testScreen() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.screen(title: "screen1", category: "category1")
+        Journify.shared().screen(title: "screen1", category: "category1")
         
         let screen1Event: ScreenEvent? = outputReader.lastEvent as? ScreenEvent
         XCTAssertTrue(screen1Event?.name == "screen1")
         XCTAssertTrue(screen1Event?.category == "category1")
         
-        analytics.screen(title: "screen2", category: "category2", properties: MyTraits(email: "blah@blah.com"))
+        Journify.shared().screen(title: "screen2", category: "category2", properties: MyTraits(email: "ben@med.com"))
         
         let screen2Event: ScreenEvent? = outputReader.lastEvent as? ScreenEvent
         XCTAssertTrue(screen2Event?.name == "screen2")
         XCTAssertTrue(screen2Event?.category == "category2")
         let props = screen2Event?.properties?.dictionaryValue
-        XCTAssertTrue(props?["email"] as? String == "blah@blah.com")
+        XCTAssertTrue(props?["email"] as? String == "ben@med.com")
     }
     
     func testReset() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
         
         let identifyEvent: IdentifyEvent? = outputReader.lastEvent as? IdentifyEvent
-        XCTAssertTrue(identifyEvent?.userId == "brandon")
+        XCTAssertTrue(identifyEvent?.userId == "BenMed")
         let traits = identifyEvent?.traits?.dictionaryValue
-        XCTAssertTrue(traits?["email"] as? String == "blah@blah.com")
+        XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
         
-        let currentAnonId = analytics.anonymousId
-        let currentUserInfo: UserInfo? = analytics.store.currentState()
+        let currentAnonId = Journify.shared().anonymousId
+        let currentUserInfo: UserInfo? = Journify.shared().store.currentState()
 
-        analytics.reset()
+        Journify.shared().reset()
         
-        let newAnonId = analytics.anonymousId
-        let newUserInfo: UserInfo? = analytics.store.currentState()
+        let newAnonId = Journify.shared().anonymousId
+        let newUserInfo: UserInfo? = Journify.shared().store.currentState()
         XCTAssertNotEqual(currentAnonId, newAnonId)
         XCTAssertNotEqual(currentUserInfo?.anonymousId, newUserInfo?.anonymousId)
         XCTAssertNotEqual(currentUserInfo?.userId, newUserInfo?.userId)
@@ -264,44 +191,44 @@ final class Analytics_Tests: XCTestCase {
         // Use a specific writekey to this test so we do not collide with other cached items.
         let analytics = Journify(configuration: Configuration(writeKey: "testFlush_do_not_reuse_this_writekey").flushInterval(9999).flushAt(9999))
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
+        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
     
-        let currentBatchCount = analytics.storage.eventFiles(includeUnfinished: true).count
+        let currentBatchCount = Journify.shared().storage.eventFiles(includeUnfinished: true).count
     
-        analytics.flush()
-        analytics.track(name: "test")
+        Journify.shared().flush()
+        Journify.shared().track(name: "test")
         
-        let batches = analytics.storage.eventFiles(includeUnfinished: true)
+        let batches = Journify.shared().storage.eventFiles(includeUnfinished: true)
         let newBatchCount = batches.count
         // 1 new temp file
         XCTAssertTrue(newBatchCount == currentBatchCount + 1, "New Count (\(newBatchCount)) should be \(currentBatchCount) + 1")
     }
     
     func testEnabled() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
 
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.track(name: "enabled")
+        Journify.shared().track(name: "enabled")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         XCTAssertTrue(trackEvent!.event == "enabled")
 
         outputReader.lastEvent = nil
-        analytics.enabled = false
-        analytics.track(name: "notEnabled")
+        Journify.shared().enabled = false
+        Journify.shared().track(name: "notEnabled")
         
         let noEvent = outputReader.lastEvent
         XCTAssertNil(noEvent)
         
-        analytics.enabled = true
-        analytics.track(name: "enabled")
+        Journify.shared().enabled = true
+        Journify.shared().track(name: "enabled")
 
         let newEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         XCTAssertTrue(newEvent!.event == "enabled")
@@ -312,10 +239,10 @@ final class Analytics_Tests: XCTestCase {
         
         waitUntilStarted(analytics: analytics)
 
-        let journify = analytics.find(pluginType: JournifyDestination.self)!
+        let journify = Journify.shared().find(pluginType: JournifyDestination.self)!
         XCTAssertTrue(journify.flushTimer!.interval == 30)
         
-        analytics.flushInterval = 60
+        Journify.shared().flushInterval = 60
         
         RunLoop.main.run(until: Date.distantPast)
         
@@ -327,10 +254,10 @@ final class Analytics_Tests: XCTestCase {
         
         waitUntilStarted(analytics: analytics)
 
-        let journify = analytics.find(pluginType: JournifyDestination.self)!
+        let journify = Journify.shared().find(pluginType: JournifyDestination.self)!
         XCTAssertTrue(journify.flushAt == 20)
         
-        analytics.flushAt = 60
+        Journify.shared().flushAt = 60
         
         RunLoop.main.run(until: Date.distantPast)
         
@@ -343,50 +270,50 @@ final class Analytics_Tests: XCTestCase {
         
         waitUntilStarted(analytics: analytics)
         
-        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
+        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
     
-        let currentPendingCount = analytics.pendingUploads!.count
+        let currentPendingCount = Journify.shared().pendingUploads!.count
         
         XCTAssertEqual(currentPendingCount, 1)
     
-        analytics.flush()
-        analytics.track(name: "test")
+        Journify.shared().flush()
+        Journify.shared().track(name: "test")
         
-        analytics.flush()
-        analytics.track(name: "test")
+        Journify.shared().flush()
+        Journify.shared().track(name: "test")
         
-        analytics.flush()
-        analytics.track(name: "test")
+        Journify.shared().flush()
+        Journify.shared().track(name: "test")
         
-        var newPendingCount = analytics.pendingUploads!.count
+        var newPendingCount = Journify.shared().pendingUploads!.count
         XCTAssertEqual(newPendingCount, 4)
         
-        let pending = analytics.pendingUploads!
-        analytics.purgeStorage(fileURL: pending.first!)
+        let pending = Journify.shared().pendingUploads!
+        Journify.shared().purgeStorage(fileURL: pending.first!)
 
-        newPendingCount = analytics.pendingUploads!.count
+        newPendingCount = Journify.shared().pendingUploads!.count
         XCTAssertEqual(newPendingCount, 3)
         
-        analytics.purgeStorage()
-        newPendingCount = analytics.pendingUploads!.count
+        Journify.shared().purgeStorage()
+        newPendingCount = Journify.shared().pendingUploads!.count
         XCTAssertEqual(newPendingCount, 0)
     }
     
     func testVersion() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
-        analytics.track(name: "whataversion")
+        Journify.shared().track(name: "whataversion")
         
         let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
         let context = trackEvent?.context?.dictionaryValue
         let eventVersion = context?[keyPath: "library.version"] as? String
-        let analyticsVersion = analytics.version()
+        let analyticsVersion = Journify.shared().version()
         
         XCTAssertEqual(eventVersion, analyticsVersion)
     }
@@ -420,15 +347,15 @@ final class Analytics_Tests: XCTestCase {
             }
         }
         let analytics = Journify(configuration: config)
-        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
+        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
         waitUntilStarted(analytics: analytics)
         
-        analytics.track(name: "something")
+        Journify.shared().track(name: "something")
         
-        analytics.flush()
+        Journify.shared().flush()
         
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 5))
     }

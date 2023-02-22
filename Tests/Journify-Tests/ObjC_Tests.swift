@@ -31,7 +31,7 @@ class ObjC_Tests: XCTestCase {
         let a = Journify(configuration: Configuration(writeKey: "WRITE_KEY"))
         let objc = ObjCJournify(wrapping: a)
         
-        XCTAssertTrue(objc.analytics === a)
+        XCTAssertTrue(objc.getAnalyticObject() === a)
     }
 }
 

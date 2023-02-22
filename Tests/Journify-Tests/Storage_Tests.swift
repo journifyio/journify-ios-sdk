@@ -21,17 +21,17 @@ class StorageTests: XCTestCase {
     func testBasicWriting() throws {
         let analytics = Journify(configuration: Configuration(writeKey: "test"))
         
-        analytics.identify(userId: "brandon", traits: MyTraits(email: "blah@blah.com"))
+        analytics.identify(userId: "benMed", traits: MyTraits(email: "ben@med.com"))
         
         let userInfo: UserInfo? = analytics.store.currentState()
         XCTAssertNotNil(userInfo)
-        XCTAssertTrue(userInfo!.userId == "brandon")
+        XCTAssertTrue(userInfo!.userId == "benMed")
         
         // This is a hack that needs to be dealt with
         RunLoop.current.run(until: Date(timeIntervalSinceNow: 2))
         
         if let userId = analytics.storage.userDefaults?.string(forKey: Storage.Constants.userId.rawValue) {
-            XCTAssertTrue(userId == "brandon")
+            XCTAssertTrue(userId == "benMed")
         } else {
             XCTFail("Could not read from storage the userId")
         }
@@ -41,13 +41,13 @@ class StorageTests: XCTestCase {
         let analytics = Journify(configuration: Configuration(writeKey: "test"))
         analytics.storage.hardReset(doYouKnowHowToUseThis: true)
         
-        var event = IdentifyEvent(userId: "brandon1", traits: try! JSON(with: MyTraits(email: "blah@blah.com")))
+        var event = IdentifyEvent(userId: "benMed1", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
         analytics.storage.write(.events, value: event)
         
-        event = IdentifyEvent(userId: "brandon2", traits: try! JSON(with: MyTraits(email: "blah@blah.com")))
+        event = IdentifyEvent(userId: "benMed2", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
         analytics.storage.write(.events, value: event)
         
-        event = IdentifyEvent(userId: "brandon3", traits: try! JSON(with: MyTraits(email: "blah@blah.com")))
+        event = IdentifyEvent(userId: "benMed3", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
         analytics.storage.write(.events, value: event)
         
         let results: [URL]? = analytics.storage.read(.events)
@@ -67,9 +67,9 @@ class StorageTests: XCTestCase {
         let item2 = batch[1]["userId"] as! String
         let item3 = batch[2]["userId"] as! String
 
-        XCTAssertTrue(item1 == "brandon1")
-        XCTAssertTrue(item2 == "brandon2")
-        XCTAssertTrue(item3 == "brandon3")
+        XCTAssertTrue(item1 == "benMed1")
+        XCTAssertTrue(item2 == "benMed2")
+        XCTAssertTrue(item3 == "benMed3")
 
         analytics.storage.remove(file: fileURL)
 
@@ -84,7 +84,7 @@ class StorageTests: XCTestCase {
         let analytics = Journify(configuration: Configuration(writeKey: "test"))
         analytics.storage.hardReset(doYouKnowHowToUseThis: true)
         
-        var event = IdentifyEvent(userId: "brandon1", traits: try! JSON(with: MyTraits(email: "blah@blah.com")))
+        var event = IdentifyEvent(userId: "benMed1", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
         analytics.storage.write(.events, value: event)
         
         var results: [URL]? = analytics.storage.read(.events)
@@ -97,7 +97,7 @@ class StorageTests: XCTestCase {
         XCTAssertTrue(fileURL.lastPathComponent == "0-journify-events.temp")
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
         
-        event = IdentifyEvent(userId: "brandon2", traits: try! JSON(with: MyTraits(email: "blah@blah.com")))
+        event = IdentifyEvent(userId: "benMed2", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
         analytics.storage.write(.events, value: event)
         
         results = analytics.storage.read(.events)

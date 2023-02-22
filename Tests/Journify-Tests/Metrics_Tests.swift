@@ -20,8 +20,8 @@ final class Metrics_Tests: XCTestCase {
         analytics.add(plugin: ZiggyPlugin())
         analytics.add(plugin: myDestination)
         
-        let traits = MyTraits(email: "brandon@redf.net")
-        analytics.identify(userId: "brandon", traits: traits)
+        let traits = MyTraits(email: "ben@med.com")
+        analytics.identify(userId: "benMed", traits: traits)
     }
 }
 
