@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		102848C929A7AE38006F54EE /* MemoryLeak_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102848C829A7AE38006F54EE /* MemoryLeak_Tests.swift */; };
 		10D0814A296CC712001BAABA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D08149296CC712001BAABA /* AppDelegate.swift */; };
 		10D0814C296CC712001BAABA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D0814B296CC712001BAABA /* SceneDelegate.swift */; };
 		10D0814E296CC712001BAABA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D0814D296CC712001BAABA /* ViewController.swift */; };
@@ -129,6 +130,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		102848C829A7AE38006F54EE /* MemoryLeak_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryLeak_Tests.swift; sourceTree = "<group>"; };
 		10D08147296CC712001BAABA /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10D08149296CC712001BAABA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10D0814B296CC712001BAABA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				967C40D9258D472C008EB0B6 /* JournifyLog_Tests.swift */,
 				46FE4D1C25A7A850003A7362 /* Storage_Tests.swift */,
 				46B1AC6827346D3D00846DE8 /* StressTests.swift */,
+				102848C829A7AE38006F54EE /* MemoryLeak_Tests.swift */,
 				4621082D2609206D00EBC4A8 /* Support */,
 				96DBF37A26F39B5500724B0B /* Timeline_Tests.swift */,
 				OBJ_13 /* XCTestManifests.swift */,
@@ -593,6 +596,7 @@
 			files = (
 				96DBF37B26F39B5500724B0B /* Timeline_Tests.swift in Sources */,
 				OBJ_30 /* Journify_Tests.swift in Sources */,
+				102848C929A7AE38006F54EE /* MemoryLeak_Tests.swift in Sources */,
 				46F7486026C720F60042798E /* ObjC_Tests.swift in Sources */,
 				OBJ_31 /* XCTestManifests.swift in Sources */,
 				46B1AC6927346D3D00846DE8 /* StressTests.swift in Sources */,

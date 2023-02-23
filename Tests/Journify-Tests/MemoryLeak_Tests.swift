@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Segment
+@testable import Journify
 
 final class MemoryLeak_Tests: XCTestCase {
 
@@ -19,59 +19,56 @@ final class MemoryLeak_Tests: XCTestCase {
     }
 
     func testLeaksVerbose() throws {
-        let analytics = Analytics(configuration: Configuration(writeKey: "1234"))
-        
-        waitUntilStarted(analytics: analytics)
-        analytics.track(name: "test")
+        Journify.setup(with: Configuration(writeKey: "test"))
+
+        waitUntilStarted(analytics: Journify.shared())
+        Journify.shared().track(name: "test")
         
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 1))
         
-        let segmentDest = analytics.find(pluginType: SegmentDestination.self)!
-        let destMetadata = segmentDest.timeline.find(pluginType: DestinationMetadataPlugin.self)!
-        let startupQueue = analytics.find(pluginType: StartupQueue.self)!
-        let segmentLog = analytics.find(pluginType: SegmentLog.self)!
+        let journifyDest = Journify.shared().find(pluginType: JournifyDestination.self)!
+        let startupQueue = Journify.shared().find(pluginType: StartupQueue.self)!
+        let segmentLog = Journify.shared().find(pluginType: JournifyLog.self)!
          
-        let context = analytics.find(pluginType: Context.self)!
+        let context = Journify.shared().find(pluginType: Context.self)!
         
         #if !os(Linux)
-        let deviceToken = analytics.find(pluginType: DeviceToken.self)!
+        let deviceToken = Journify.shared().find(pluginType: DeviceToken.self)!
         #endif
         #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
-        let iosLifecycle = analytics.find(pluginType: iOSLifecycleEvents.self)!
-        let iosMonitor = analytics.find(pluginType: iOSLifecycleMonitor.self)!
+        let iosLifecycle = Journify.shared().find(pluginType: iOSLifecycleEvents.self)!
+        let iosMonitor = Journify.shared().find(pluginType: iOSLifecycleMonitor.self)!
         #elseif os(watchOS)
-        let watchLifecycle = analytics.find(pluginType: watchOSLifecycleEvents.self)!
-        let watchMonitor = analytics.find(pluginType: watchOSLifecycleMonitor.self)!
+        let watchLifecycle = Journify.shared().find(pluginType: watchOSLifecycleEvents.self)!
+        let watchMonitor = Journify.shared().find(pluginType: watchOSLifecycleMonitor.self)!
         #elseif os(macOS)
-        let macLifecycle = analytics.find(pluginType: macOSLifecycleEvents.self)!
-        let macMonitor = analytics.find(pluginType: macOSLifecycleMonitor.self)!
+        let macLifecycle = Journify.shared().find(pluginType: macOSLifecycleEvents.self)!
+        let macMonitor = Journify.shared().find(pluginType: macOSLifecycleMonitor.self)!
         #endif
 
-        analytics.remove(plugin: startupQueue)
-        analytics.remove(plugin: segmentLog)
-        analytics.remove(plugin: segmentDest)
-        segmentDest.remove(plugin: destMetadata)
+        Journify.shared().remove(plugin: startupQueue)
+        Journify.shared().remove(plugin: segmentLog)
+        Journify.shared().remove(plugin: journifyDest)
          
-        analytics.remove(plugin: context)
+        Journify.shared().remove(plugin: context)
         #if !os(Linux)
-        analytics.remove(plugin: deviceToken)
+        Journify.shared().remove(plugin: deviceToken)
         #endif
         #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
-        analytics.remove(plugin: iosLifecycle)
-        analytics.remove(plugin: iosMonitor)
+        Journify.shared().remove(plugin: iosLifecycle)
+        Journify.shared().remove(plugin: iosMonitor)
         #elseif os(watchOS)
-        analytics.remove(plugin: watchLifecycle)
-        analytics.remove(plugin: watchMonitor)
+        Journify.shared().remove(plugin: watchLifecycle)
+        Journify.shared().remove(plugin: watchMonitor)
         #elseif os(macOS)
-        analytics.remove(plugin: macLifecycle)
-        analytics.remove(plugin: macMonitor)
+        Journify.shared().remove(plugin: macLifecycle)
+        Journify.shared().remove(plugin: macMonitor)
         #endif
 
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 1))
 
         checkIfLeaked(segmentLog)
-        checkIfLeaked(segmentDest)
-        checkIfLeaked(destMetadata)
+        checkIfLeaked(journifyDest)
         checkIfLeaked(startupQueue)
         
         checkIfLeaked(context)
@@ -88,19 +85,6 @@ final class MemoryLeak_Tests: XCTestCase {
         checkIfLeaked(macLifecycle)
         checkIfLeaked(macMonitor)
         #endif
-        
-        checkIfLeaked(analytics)
-    }
-    
-    func testLeaksSimple() throws {
-        let analytics = Analytics(configuration: Configuration(writeKey: "1234"))
-        
-        waitUntilStarted(analytics: analytics)
-        analytics.track(name: "test")
-        
-        RunLoop.main.run(until: Date(timeIntervalSinceNow: 1))
-
-        checkIfLeaked(analytics)
     }
 
 }
