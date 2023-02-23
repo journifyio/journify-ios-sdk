@@ -88,24 +88,6 @@ final class JournifyLog_Tests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func testUpdateSettingsFalse() {
-        var settings = Settings(writeKey: "123456789")
-        settings.plan = try? JSON(["logging_enabled": false])
-        mockLogger.update(settings: settings)
-        
-        XCTAssertFalse(JournifyLog.loggingEnabled, "Enabled logging was not set correctly")
-    }
-    
-    func testUpdateSettingsTrue() {
-        
-        JournifyLog.loggingEnabled = false
-        var settings = Settings(writeKey: "123456789")
-        settings.plan = try? JSON(["logging_enabled": true])
-        mockLogger.update(settings: settings)
-        
-        XCTAssertTrue(JournifyLog.loggingEnabled, "Enabled logging was not set correctly")
-    }
-    
     func testTargetSuccess() {
         
         // Arrange

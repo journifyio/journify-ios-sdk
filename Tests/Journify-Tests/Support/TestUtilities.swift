@@ -119,9 +119,9 @@ class OutputReaderPlugin: Plugin {
 }
 
 func waitUntilStarted(analytics: Journify?) {
-    guard let analytics = analytics else { return }
+    guard analytics != nil else { return }
     // wait until the startup queue has emptied it's events.
-    if let startupQueue = analytics.find(pluginType: StartupQueue.self) {
+    if let startupQueue = Journify.shared().find(pluginType: StartupQueue.self) {
         while startupQueue.running != true {
             RunLoop.main.run(until: Date.distantPast)
         }

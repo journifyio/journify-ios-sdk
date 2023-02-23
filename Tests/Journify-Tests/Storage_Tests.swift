@@ -19,18 +19,18 @@ class StorageTests: XCTestCase {
     }
 
     func testBasicWriting() throws {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         
-        analytics.identify(userId: "benMed", traits: MyTraits(email: "ben@med.com"))
+        Journify.shared().identify(userId: "benMed", traits: MyTraits(email: "ben@med.com"))
         
-        let userInfo: UserInfo? = analytics.store.currentState()
+        let userInfo: UserInfo? = Journify.shared().store.currentState()
         XCTAssertNotNil(userInfo)
         XCTAssertTrue(userInfo!.userId == "benMed")
         
         // This is a hack that needs to be dealt with
         RunLoop.current.run(until: Date(timeIntervalSinceNow: 2))
         
-        if let userId = analytics.storage.userDefaults?.string(forKey: Storage.Constants.userId.rawValue) {
+        if let userId = Journify.shared().storage.userDefaults?.string(forKey: Storage.Constants.userId.rawValue) {
             XCTAssertTrue(userId == "benMed")
         } else {
             XCTFail("Could not read from storage the userId")
@@ -39,19 +39,19 @@ class StorageTests: XCTestCase {
     
     //TODO: The test has failed. Please check this function
 //    func testEventWriting() throws {
-//        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-//        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
+//        Journify.setup(with: Configuration(writeKey: "test"))
+//        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
 //
 //        var event = IdentifyEvent(userId: "benMed1", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
-//        analytics.storage.write(.events, value: event)
+//        Journify.shared().storage.write(.events, value: event)
 //
 //        event = IdentifyEvent(userId: "benMed2", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
-//        analytics.storage.write(.events, value: event)
+//        Journify.shared().storage.write(.events, value: event)
 //
 //        event = IdentifyEvent(userId: "benMed3", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
-//        analytics.storage.write(.events, value: event)
+//        Journify.shared().storage.write(.events, value: event)
 //
-//        let results: [URL]? = analytics.storage.read(.events)
+//        let results: [URL]? = Journify.shared().storage.read(.events)
 //
 //        XCTAssertNotNil(results)
 //
@@ -72,7 +72,7 @@ class StorageTests: XCTestCase {
 //        XCTAssertTrue(item2 == "benMed2")
 //        XCTAssertTrue(item3 == "benMed3")
 //
-//        analytics.storage.remove(file: fileURL)
+//        Journify.shared().storage.remove(file: fileURL)
 //
 //        // make sure our original and temp files are named correctly, and gone.
 //        let originalFile = fileURL.deletingPathExtension()
@@ -82,13 +82,13 @@ class StorageTests: XCTestCase {
 //    }
     
     func testFilePrepAndFinish() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
-        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
+        Journify.setup(with: Configuration(writeKey: "test"))
+        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         
         var event = IdentifyEvent(userId: "benMed1", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
-        analytics.storage.write(.events, value: event)
+        Journify.shared().storage.write(.events, value: event)
         
-        var results: [URL]? = analytics.storage.read(.events)
+        var results: [URL]? = Journify.shared().storage.read(.events)
 
         XCTAssertNotNil(results)
         
@@ -99,9 +99,9 @@ class StorageTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
         
         event = IdentifyEvent(userId: "benMed2", traits: try! JSON(with: MyTraits(email: "ben@med.com")))
-        analytics.storage.write(.events, value: event)
+        Journify.shared().storage.write(.events, value: event)
         
-        results = analytics.storage.read(.events)
+        results = Journify.shared().storage.read(.events)
         
         XCTAssertNotNil(results)
         

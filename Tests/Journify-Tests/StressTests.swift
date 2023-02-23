@@ -24,11 +24,11 @@ class StressTests: XCTestCase {
         // register our network blocker
         guard URLProtocol.registerClass(BlockNetworkCalls.self) else { XCTFail(); return }
                 
-        let analytics = Journify(configuration: Configuration(writeKey: "stressTest").errorHandler({ error in
+        Journify.setup(with: Configuration(writeKey: "stressTest").errorHandler({ error in
             XCTFail("Storage Error: \(error)")
         }))
-        analytics.storage.hardReset(doYouKnowHowToUseThis: true)
-        analytics.storage.onFinish = { url in
+        Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
+        Journify.shared().storage.onFinish = { url in
             // check that each one is valid json
             do {
                 let json = try Data(contentsOf: url)
@@ -38,10 +38,10 @@ class StressTests: XCTestCase {
             }
         }
 
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         // set the httpclient to use our blocker session
-        let journify = analytics.find(pluginType: JournifyDestination.self)
+        let journify = Journify.shared().find(pluginType: JournifyDestination.self)
         let configuration = URLSessionConfiguration.ephemeral
         configuration.allowsCellularAccess = true
         configuration.timeoutIntervalForResource = 30
@@ -67,7 +67,7 @@ class StressTests: XCTestCase {
             var eventsWritten = 0
             while (eventsWritten < 10000) {
                 let event = "write queue 1: \(eventsWritten)"
-                analytics.track(name: event)
+                Journify.shared().track(name: event)
                 eventsWritten += 1
                 usleep(0001)
             }
@@ -80,7 +80,7 @@ class StressTests: XCTestCase {
             var eventsWritten = 0
             while (eventsWritten < 10000) {
                 let event = "write queue 2: \(eventsWritten)"
-                analytics.track(name: event)
+                Journify.shared().track(name: event)
                 eventsWritten += 1
                 usleep(0001)
             }
@@ -95,7 +95,7 @@ class StressTests: XCTestCase {
             while (queue1Done == false || queue2Done == false) {
                 let sleepTime = UInt32.random(in: 1..<3000)
                 usleep(sleepTime)
-                analytics.flush()
+                Journify.shared().flush()
                 counter += 1
             }
             print("flushed \(counter) times.")

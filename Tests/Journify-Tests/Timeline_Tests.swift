@@ -27,13 +27,13 @@ class Timeline_Tests: XCTestCase {
         }
 
         let configuration = Configuration(writeKey: "test")
-        let analytics = Journify(configuration: configuration)
+        Journify.setup(with: configuration)
 
-        analytics.add(plugin: firstDestination)
+        Journify.shared().add(plugin: firstDestination)
 
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
 
-        analytics.track(name: "Booya")
+        Journify.shared().track(name: "Booya")
 
         wait(for: [expectation], timeout: 1.0)
     }
@@ -53,14 +53,13 @@ class Timeline_Tests: XCTestCase {
 
         
         let configuration = Configuration(writeKey: "test")
-        let analytics = Journify(configuration: configuration)
+        Journify.setup(with: configuration)
+        Journify.shared().add(plugin: firstDestination)
+        Journify.shared().add(plugin: secondDestination)
 
-        analytics.add(plugin: firstDestination)
-        analytics.add(plugin: secondDestination)
+        waitUntilStarted(analytics: Journify.shared())
 
-        waitUntilStarted(analytics: analytics)
-
-        analytics.track(name: "Booya")
+        Journify.shared().track(name: "Booya")
 
         wait(for: [expectation, expectationTrack2], timeout: 1.0)
     }
@@ -81,12 +80,12 @@ class Timeline_Tests: XCTestCase {
         let configuration = Configuration(writeKey: "test")
         let analytics = Journify(configuration: configuration)
 
-        analytics.add(plugin: firstDestination)
-        analytics.add(plugin: secondDestination)
+        Journify.shared().add(plugin: firstDestination)
+        Journify.shared().add(plugin: secondDestination)
 
         waitUntilStarted(analytics: analytics)
 
-        analytics.track(name: "Booya")
+        Journify.shared().track(name: "Booya")
 
         wait(for: [expectation, expectationTrack2], timeout: 1.0)
     }

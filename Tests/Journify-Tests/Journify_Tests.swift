@@ -189,7 +189,7 @@ final class Journify_Tests: XCTestCase {
 
     func testFlush() {
         // Use a specific writekey to this test so we do not collide with other cached items.
-        let analytics = Journify(configuration: Configuration(writeKey: "testFlush_do_not_reuse_this_writekey").flushInterval(9999).flushAt(9999))
+        Journify.setup(with: Configuration(writeKey: "testFlush_do_not_reuse_this_writekey").flushInterval(9999).flushAt(9999))
         
         waitUntilStarted(analytics: Journify.shared())
         
@@ -235,9 +235,9 @@ final class Journify_Tests: XCTestCase {
     }
     
     func testSetFlushIntervalAfter() {
-        let analytics = Journify(configuration: Configuration(writeKey: "1234"))
+        Journify.setup(with: Configuration(writeKey: "1234"))
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
 
         let journify = Journify.shared().find(pluginType: JournifyDestination.self)!
         XCTAssertTrue(journify.flushTimer!.interval == 30)
@@ -250,9 +250,9 @@ final class Journify_Tests: XCTestCase {
     }
     
     func testSetFlushAtAfter() {
-        let analytics = Journify(configuration: Configuration(writeKey: "1234"))
-        
-        waitUntilStarted(analytics: analytics)
+        Journify.setup(with: Configuration(writeKey: "1234"))
+
+        waitUntilStarted(analytics: Journify.shared())
 
         let journify = Journify.shared().find(pluginType: JournifyDestination.self)!
         XCTAssertTrue(journify.flushAt == 20)
@@ -266,9 +266,9 @@ final class Journify_Tests: XCTestCase {
     
     func testPurgeStorage() {
         // Use a specific writekey to this test so we do not collide with other cached items.
-        let analytics = Journify(configuration: Configuration(writeKey: "testFlush_do_not_reuse_this_writekey_either").flushInterval(9999).flushAt(9999))
-        
-        waitUntilStarted(analytics: analytics)
+        Journify.setup(with: Configuration(writeKey: "testFlush_do_not_reuse_this_writekey").flushInterval(9999).flushAt(9999))
+
+        waitUntilStarted(analytics: Journify.shared())
         
         Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         
@@ -346,12 +346,12 @@ final class Journify_Tests: XCTestCase {
                 XCTFail("\(error)")
             }
         }
-        let analytics = Journify(configuration: config)
+        Journify.setup(with: config)
         Journify.shared().storage.hardReset(doYouKnowHowToUseThis: true)
         let outputReader = OutputReaderPlugin()
         Journify.shared().add(plugin: outputReader)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         Journify.shared().track(name: "something")
         

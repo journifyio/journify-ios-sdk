@@ -5,14 +5,14 @@ import XCTest
 final class iOSLifecycle_Tests: XCTestCase {
     
     func testInstallEventCreation() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
         let iosLifecyclePlugin = iOSLifecycleEvents()
-        analytics.add(plugin: iosLifecyclePlugin)
+        Journify.shared().add(plugin: iosLifecyclePlugin)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         UserDefaults.standard.setValue(nil, forKey: "JFBuildKeyV2")
         
@@ -27,14 +27,14 @@ final class iOSLifecycle_Tests: XCTestCase {
     }
 
     func testInstallEventUpdated() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
         let iosLifecyclePlugin = iOSLifecycleEvents()
-        analytics.add(plugin: iosLifecyclePlugin)
+        Journify.shared().add(plugin: iosLifecyclePlugin)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         UserDefaults.standard.setValue("1337", forKey: "JFBuildKeyV2")
         
@@ -49,14 +49,14 @@ final class iOSLifecycle_Tests: XCTestCase {
     }
     
     func testInstallEventOpened() {
-        let analytics = Journify(configuration: Configuration(writeKey: "test"))
+        Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()
-        analytics.add(plugin: outputReader)
+        Journify.shared().add(plugin: outputReader)
         
         let iosLifecyclePlugin = iOSLifecycleEvents()
-        analytics.add(plugin: iosLifecyclePlugin)
+        Journify.shared().add(plugin: iosLifecyclePlugin)
         
-        waitUntilStarted(analytics: analytics)
+        waitUntilStarted(analytics: Journify.shared())
         
         iosLifecyclePlugin.application(nil, didFinishLaunchingWithOptions: nil)
                 

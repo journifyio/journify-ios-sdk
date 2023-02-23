@@ -32,18 +32,9 @@ final class MemoryLeak_Tests: XCTestCase {
          
         let context = Journify.shared().find(pluginType: Context.self)!
         
-        #if !os(Linux)
-        let deviceToken = Journify.shared().find(pluginType: DeviceToken.self)!
-        #endif
         #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
         let iosLifecycle = Journify.shared().find(pluginType: iOSLifecycleEvents.self)!
         let iosMonitor = Journify.shared().find(pluginType: iOSLifecycleMonitor.self)!
-        #elseif os(watchOS)
-        let watchLifecycle = Journify.shared().find(pluginType: watchOSLifecycleEvents.self)!
-        let watchMonitor = Journify.shared().find(pluginType: watchOSLifecycleMonitor.self)!
-        #elseif os(macOS)
-        let macLifecycle = Journify.shared().find(pluginType: macOSLifecycleEvents.self)!
-        let macMonitor = Journify.shared().find(pluginType: macOSLifecycleMonitor.self)!
         #endif
 
         Journify.shared().remove(plugin: startupQueue)
@@ -51,18 +42,9 @@ final class MemoryLeak_Tests: XCTestCase {
         Journify.shared().remove(plugin: journifyDest)
          
         Journify.shared().remove(plugin: context)
-        #if !os(Linux)
-        Journify.shared().remove(plugin: deviceToken)
-        #endif
         #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
         Journify.shared().remove(plugin: iosLifecycle)
         Journify.shared().remove(plugin: iosMonitor)
-        #elseif os(watchOS)
-        Journify.shared().remove(plugin: watchLifecycle)
-        Journify.shared().remove(plugin: watchMonitor)
-        #elseif os(macOS)
-        Journify.shared().remove(plugin: macLifecycle)
-        Journify.shared().remove(plugin: macMonitor)
         #endif
 
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 1))
@@ -72,18 +54,9 @@ final class MemoryLeak_Tests: XCTestCase {
         checkIfLeaked(startupQueue)
         
         checkIfLeaked(context)
-        #if !os(Linux)
-        checkIfLeaked(deviceToken)
-        #endif
         #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
         checkIfLeaked(iosLifecycle)
         checkIfLeaked(iosMonitor)
-        #elseif os(watchOS)
-        checkIfLeaked(watchLifecycle)
-        checkIfLeaked(watchMonitor)
-        #elseif os(macOS)
-        checkIfLeaked(macLifecycle)
-        checkIfLeaked(macMonitor)
         #endif
     }
 

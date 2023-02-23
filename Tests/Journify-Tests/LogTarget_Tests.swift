@@ -37,7 +37,6 @@ final class LogTarget_Tests: XCTestCase {
     }
     
     override func tearDown() {
-        analytics = nil
         
         // Reset to default state the system should be in from start
         JournifyLog.loggingEnabled = false
@@ -154,10 +153,10 @@ final class LogTarget_Tests: XCTestCase {
     func testLoggingEnabledFromAnalytics() {
         JournifyLog.loggingEnabled = false
         
-        Analytics.debugLogsEnabled = true
+        Journify.debugLogsEnabled = true
         XCTAssertTrue(JournifyLog.loggingEnabled, "Logging should change to enabled")
         
-        Analytics.debugLogsEnabled = false
+        Journify.debugLogsEnabled = false
         XCTAssertFalse(JournifyLog.loggingEnabled, "Logging should reset to disabled")
     }
     
