@@ -14,7 +14,7 @@
 		101DC11F2993B30000A64A62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 101DC11E2993B30000A64A62 /* Assets.xcassets */; };
 		101DC1222993B30000A64A62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 101DC1202993B30000A64A62 /* LaunchScreen.storyboard */; };
 		101DC1252993B30000A64A62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 101DC1242993B30000A64A62 /* main.m */; };
-		10B2DD5B299808B700E934D3 /* Journify in Frameworks */ = {isa = PBXBuildFile; productRef = 10B2DD5A299808B700E934D3 /* Journify */; };
+		10EE53A529AF375200698477 /* Journify in Frameworks */ = {isa = PBXBuildFile; productRef = 10EE53A429AF375200698477 /* Journify */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10B2DD5B299808B700E934D3 /* Journify in Frameworks */,
+				10EE53A529AF375200698477 /* Journify in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +95,7 @@
 			);
 			name = ObjCExample;
 			packageProductDependencies = (
-				10B2DD5A299808B700E934D3 /* Journify */,
+				10EE53A429AF375200698477 /* Journify */,
 			);
 			productName = ObjCExample;
 			productReference = 101DC10F2993B2FE00A64A62 /* ObjCExample.app */;
@@ -125,7 +125,7 @@
 			);
 			mainGroup = 101DC1062993B2FE00A64A62;
 			packageReferences = (
-				10B2DD59299808B700E934D3 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */,
+				10EE53A329AF375200698477 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */,
 			);
 			productRefGroup = 101DC1102993B2FE00A64A62 /* Products */;
 			projectDirPath = "";
@@ -373,20 +373,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		10B2DD59299808B700E934D3 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */ = {
+		10EE53A329AF375200698477 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/journifyio/journify-ios-sdk";
 			requirement = {
-				branch = rename;
+				branch = main;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		10B2DD5A299808B700E934D3 /* Journify */ = {
+		10EE53A429AF375200698477 /* Journify */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 10B2DD59299808B700E934D3 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */;
+			package = 10EE53A329AF375200698477 /* XCRemoteSwiftPackageReference "journify-ios-sdk" */;
 			productName = Journify;
 		};
 /* End XCSwiftPackageProductDependency section */

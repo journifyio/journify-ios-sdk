@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/journifyio/journify-ios-sdk",
       "state" : {
-        "branch" : "rename",
-        "revision" : "8b912f8946f0d9080b3bdf7c6f6a9b79ac8d9bec"
+        "branch" : "main",
+        "revision" : "f963bab26cb0a1154b1b1cd2f32e4fb550a378e1"
       }
     },
     {

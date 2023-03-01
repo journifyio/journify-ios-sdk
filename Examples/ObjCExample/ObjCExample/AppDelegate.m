@@ -23,6 +23,7 @@
     
     [JFJournify setupWith:configuration];
     [JFJournify track:@"event"];
+    [JFJournify identify:@"UserId" traits:@{@"email": @"test@email.com"}];
     return YES;
 }
 

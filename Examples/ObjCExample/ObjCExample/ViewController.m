@@ -6,6 +6,7 @@
 //
 
 #import "ViewController.h"
+@import Journify;
 
 @interface ViewController ()
 
@@ -16,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [JFJournify screen:@"Page" category:nil properties:@{@"name": @"ViewController"}];
 }
 
 
