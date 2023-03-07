@@ -3,7 +3,7 @@
 [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-F05138.svg)](https://swift.org/package-manager/)
 
 
-JournifySDK is a Swift library for integrating event tracking and analytics into your iOS application. It provides an easy-to-use interface for developers to add Segment-like functionality to their projects.
+JournifySDK is a Swift library for integrating event tracking and analytics into your iOS application. It provides an easy-to-use interface for developers to add similar functionality to their projects.
 
 
 
