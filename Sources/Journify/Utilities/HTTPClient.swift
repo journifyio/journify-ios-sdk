@@ -16,7 +16,7 @@ enum HTTPClientErrors: Error {
 }
 
 public class HTTPClient {
-    private static let defaultAPIHost = "t.journify.dev/v1"
+    private static let defaultAPIHost = "t.journify.io/v1"
     
     internal var session: URLSession
     private var apiHost: String
