@@ -45,5 +45,5 @@ Journify.shared().screen(title: "New Screen", properties: ["title": "Growth as a
 
 ## Credits
 
-This SDK was based of Segment Swift SDK https://github.com/segmentio/analytics-swift (Thanks to the Segment team)
+This SDK was based of Segment Swift SDK [https://github.com/segmentio/analytics-swift](https://github.com/segmentio/analytics-swift) (Thanks to the Segment team)
 
