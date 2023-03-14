@@ -43,3 +43,7 @@ Journify.shared().screen(title: "New Screen", properties: ["title": "Growth as a
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Credits
+
+This SDK was based of Segment Swift SDK https://github.com/segmentio/analytics-swift (Thanks to the Segment team)
+
