@@ -60,11 +60,12 @@ class StorageTests: XCTestCase {
         XCTAssertTrue(fileURL.lastPathComponent == "0-journify-events.temp")
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
 
-        let json = try! JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as! [[String: Any]]
+        let json = try! JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as! [String: Any]
 
-        let item1 = json[0]["userId"] as! String
-        let item2 = json[1]["userId"] as! String
-        let item3 = json[2]["userId"] as! String
+        let batch = json["batch"] as! [[String: Any]]
+        let item1 = batch[0]["userId"] as! String
+        let item2 = batch[1]["userId"] as! String
+        let item3 = batch[2]["userId"] as! String
 
         XCTAssertTrue(item1 == "benMed1")
         XCTAssertTrue(item2 == "benMed2")
