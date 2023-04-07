@@ -274,7 +274,7 @@ extension Storage {
     }
     
     private func start(file: URL) {
-        let contents = "["
+        let contents = "{ \"batch\": ["
         do {
             outputStream = try OutputFileStream(fileURL: file)
             try outputStream?.create()
@@ -313,7 +313,7 @@ extension Storage {
         let sentAt = Date().iso8601()
 
         // write it to the existing file
-        let fileEnding = "]"
+        let fileEnding = "]}"
         do {
             try outputStream.write(fileEnding)
             try outputStream.close()
