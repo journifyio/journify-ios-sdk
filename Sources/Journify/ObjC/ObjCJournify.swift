@@ -142,6 +142,24 @@ extension ObjCJournify {
     }
     
     @objc
+    public static func settings() -> [String: Any]? {
+        var result: [String: Any]? = nil
+        if let system: System = sharedInstance?.analytics.store.currentState() {
+            do {
+                let encoder = JSONEncoder()
+                let json = try encoder.encode(system.settings)
+                if let r = try JSONSerialization.jsonObject(with: json) as? [String: Any] {
+                    result = r
+                }
+            } catch {
+                // not sure why this would fail, but report it.
+                exceptionFailure("Failed to convert Settings to ObjC dictionary: \(error)")
+            }
+        }
+        return result
+    }
+    
+    @objc
     public static func jfVersion() -> String {
         return sharedInstance?.analytics.version() ?? ""
     }

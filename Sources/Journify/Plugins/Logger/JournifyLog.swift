@@ -52,6 +52,14 @@ internal class JournifyLog: UtilityPlugin {
         #endif
     }
     
+    func update(settings: Settings) {
+        // Check for the server-side flag
+        if let settingsDictionary = settings.plan?.dictionaryValue,
+           let enabled = settingsDictionary["logging_enabled"] as? Bool {
+            JournifyLog.loggingEnabled = enabled
+        }
+    }
+    
     internal func log(_ logMessage: LogMessage, destination: LoggingType.LogDestination) {
         
         for (logType, target) in loggingMediator {
