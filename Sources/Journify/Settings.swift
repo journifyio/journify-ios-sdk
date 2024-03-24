@@ -39,7 +39,7 @@ public struct Settings: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case integrations
+        case integrations = "syncs"
         case plan
         case edgeFunction
         case middlewareSettings
@@ -77,6 +77,32 @@ public struct Settings: Codable {
     public func hasIntegrationSettings(key: String) -> Bool {
         guard let settings = integrations?.dictionaryValue else { return false }
         return (settings[key] != nil)
+    }
+    
+    static func mapJournifyIntegrationsJSON(integrations: JSON?) -> JSON? {
+        if let integrations = integrations?.arrayValue as? [[String: Any]] {
+            var journifyIntegrations: [String: [String: Any]] = [:]
+            for item in integrations {
+                if let destination_app = item["destination_app"] as? String,
+                   let settings = item["settings"] as? [[String: Any]]{
+                    var newSettings: [String: Any] = [:]
+                    for item in settings {
+                        if let key = item["key"] as? String {
+                            newSettings[key] = item["value"]
+                        }
+                    }
+                    journifyIntegrations[destination_app] = newSettings
+                }
+            }
+            do {
+                let json = try JSON(journifyIntegrations)
+                return json
+            } catch let error as NSError {
+                print("Failed to convert json: \(error.localizedDescription)")
+                return nil
+            }
+        }
+        return nil
     }
 }
 
@@ -125,7 +151,7 @@ extension Journify {
         let writeKey = self.configuration.values.writeKey
         let httpClient = HTTPClient(analytics: self)
         let systemState: System? = store.currentState()
-        let hasSettings = (systemState?.settings?.integrations != nil && systemState?.settings?.plan != nil)
+        let hasSettings = (systemState?.settings?.integrations != nil)
         let updateType = (hasSettings ? UpdateType.refresh : UpdateType.initial)
         
         // stop things; queue in case our settings have changed.
