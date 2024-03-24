@@ -18,7 +18,10 @@ public class Configuration {
         var trackApplicationLifecycleEvents: Bool = true
         var flushAt: Int = 20
         var flushInterval: TimeInterval = 30
+        var defaultSettings: Settings? = nil
+        var autoAddSegmentDestination: Bool = true
         var apiHost: String = HTTPClient.getDefaultAPIHost()
+        var cdnHost: String = HTTPClient.getDefaultCDNHost()
         var requestFactory: ((URLRequest) -> URLRequest)? = nil
         var errorHandler: ((Error) -> Void)? = nil
     }
@@ -59,8 +62,26 @@ public extension Configuration {
     }
     
     @discardableResult
+    func defaultSettings(_ settings: Settings) -> Configuration {
+        values.defaultSettings = settings
+        return self
+    }
+    
+    @discardableResult
+    func autoAddSegmentDestination(_ value: Bool) -> Configuration {
+        values.autoAddSegmentDestination = value
+        return self
+    }
+    
+    @discardableResult
     func apiHost(_ value: String) -> Configuration {
         values.apiHost = value
+        return self
+    }
+    
+    @discardableResult
+    func cdnHost(_ value: String) -> Configuration {
+        values.cdnHost = value
         return self
     }
     

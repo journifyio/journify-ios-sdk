@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		102848C929A7AE38006F54EE /* MemoryLeak_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102848C829A7AE38006F54EE /* MemoryLeak_Tests.swift */; };
+		105DDD302BB066E800EE9B2B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105DDD2F2BB066E800EE9B2B /* Settings.swift */; };
 		10D0814A296CC712001BAABA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D08149296CC712001BAABA /* AppDelegate.swift */; };
 		10D0814C296CC712001BAABA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D0814B296CC712001BAABA /* SceneDelegate.swift */; };
 		10D0814E296CC712001BAABA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D0814D296CC712001BAABA /* ViewController.swift */; };
@@ -130,6 +131,7 @@
 
 /* Begin PBXFileReference section */
 		102848C829A7AE38006F54EE /* MemoryLeak_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryLeak_Tests.swift; sourceTree = "<group>"; };
+		105DDD2F2BB066E800EE9B2B /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		10D08147296CC712001BAABA /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10D08149296CC712001BAABA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10D0814B296CC712001BAABA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				A3471FBD256487F000965480 /* Configuration.swift */,
 				9620862B2575C0C800314F8D /* Events.swift */,
 				A31A16C225794BEF00C9CDDF /* Plugins.swift */,
+				105DDD2F2BB066E800EE9B2B /* Settings.swift */,
 				4697A237290341EF00FAE14F /* Errors.swift */,
 				9692724D25A4E5B7009B5298 /* Startup.swift */,
 				A31A162E2576B73F00C9CDDF /* State.swift */,
@@ -554,6 +557,7 @@
 				46A018EE25E9A74F00F9CCD8 /* VendorSystem.swift in Sources */,
 				46FE4CE025A53FAD003A7362 /* Storage.swift in Sources */,
 				46022764261E64A800A9E913 /* iOSLifecycleEvents.swift in Sources */,
+				105DDD302BB066E800EE9B2B /* Settings.swift in Sources */,
 				4621080C2605332D00EBC4A8 /* KeyPath.swift in Sources */,
 				A31A16262576B6F200C9CDDF /* Timeline.swift in Sources */,
 				96259F8626CF1D45008AE301 /* ConsoleTarget.swift in Sources */,

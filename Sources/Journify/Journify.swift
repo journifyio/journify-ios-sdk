@@ -195,6 +195,26 @@ extension Journify {
 }
 
 extension Journify {
+    /// Manually retrieve the settings that were supplied from Segment.com.
+    /// - Returns: A Settings object containing integration settings, tracking plan, etc.
+    public func settings() -> Settings? {
+        var settings: Settings?
+        if let system: System = store.currentState() {
+            settings = system.settings
+        }
+        return settings
+    }
+    
+    /// Manually enable a destination plugin.  This is useful when a given DestinationPlugin doesn't have any Segment tie-ins at all.
+    /// This will allow the destination to be processed in the same way within this library.
+    /// - Parameters:
+    ///   - plugin: The destination plugin to enable.
+    public func manuallyEnableDestination(plugin: DestinationPlugin) {
+        self.store.dispatch(action: System.AddDestinationToSettingsAction(key: plugin.key))
+    }
+}
+
+extension Journify {
     /// Determine if there are any events that have yet to be sent to Journify
     public var hasUnsentEvents: Bool {
         if let journifyDest = self.find(pluginType: JournifyDestination.self) {

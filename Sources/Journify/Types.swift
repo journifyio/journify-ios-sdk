@@ -17,6 +17,7 @@ public protocol RawEvent: Codable {
     var timestamp: String? { get set }
     
     var context: JSON? { get set }
+    var integrations: JSON? { get set }
     var metrics: [JSON]? { get set }
 }
 
@@ -27,6 +28,7 @@ public struct TrackEvent: RawEvent {
     public var userId: String? = nil
     public var timestamp: String? = nil
     public var context: JSON? = nil
+    public var integrations: JSON? = nil
     public var metrics: [JSON]? = nil
     
     public var event: String
@@ -52,6 +54,7 @@ public struct IdentifyEvent: RawEvent {
     public var userId: String?
     public var timestamp: String? = nil
     public var context: JSON? = nil
+    public var integrations: JSON? = nil
     public var metrics: [JSON]? = nil
     
     public var traits: JSON?
@@ -75,6 +78,7 @@ public struct ScreenEvent: RawEvent {
     public var userId: String? = nil
     public var timestamp: String? = nil
     public var context: JSON? = nil
+    public var integrations: JSON? = nil
     public var metrics: [JSON]? = nil
     
     public var name: String?
@@ -93,6 +97,122 @@ public struct ScreenEvent: RawEvent {
     }
 }
 
+// MARK: - RawEvent conveniences
+
+internal struct IntegrationConstants {
+    static let allIntegrationsKey = "All"
+}
+
+extension RawEvent {
+    /**
+     Disable all cloud-mode integrations for this event, except for any specific keys given.
+     This will preserve any per-integration specific settings if the integration is to remain enabled.
+     - Parameters:
+        - exceptKeys: A list of integration keys to exclude from disabling.
+     */
+    public mutating func disableCloudIntegrations(exceptKeys: [String]? = nil) {
+        guard let existing = integrations?.dictionaryValue else {
+            // this shouldn't happen, might oughta log it.
+            Journify.journifyLog(message: "Unable to get what should be a valid list of integrations from event.", kind: .error)
+            return
+        }
+        var new = [String: Any]()
+        new[IntegrationConstants.allIntegrationsKey] = false
+        if let exceptKeys = exceptKeys {
+            for key in exceptKeys {
+                if let value = existing[key], value is [String: Any] {
+                    new[key] = value
+                } else {
+                    new[key] = true
+                }
+            }
+        }
+        
+        do {
+            integrations = try JSON(new)
+        } catch {
+            // this shouldn't happen, log it.
+            Journify.journifyLog(message: "Unable to convert list of integrations to JSON. \(error)", kind: .error)
+        }
+    }
+    
+    /**
+     Enable all cloud-mode integrations for this event, except for any specific keys given.
+     - Parameters:
+        - exceptKeys: A list of integration keys to exclude from enabling.
+     */
+    public mutating func enableCloudIntegrations(exceptKeys: [String]? = nil) {
+        var new = [String: Any]()
+        new[IntegrationConstants.allIntegrationsKey] = true
+        if let exceptKeys = exceptKeys {
+            for key in exceptKeys {
+                new[key] = false
+            }
+        }
+        
+        do {
+            integrations = try JSON(new)
+        } catch {
+            // this shouldn't happen, log it.
+            Journify.journifyLog(message: "Unable to convert list of integrations to JSON. \(error)", kind: .error)
+        }
+    }
+    
+    /**
+     Disable a specific cloud-mode integration using it's key name.
+     - Parameters:
+        - key: The key name of the integration to disable.
+     */
+    public mutating func disableIntegration(key: String) {
+        guard let existing = integrations?.dictionaryValue else {
+            // this shouldn't happen, might oughta log it.
+            Journify.journifyLog(message: "Unable to get what should be a valid list of integrations from event.", kind: .error)
+            return
+        }
+        // we don't really care what the value of this key was before, as
+        // a disabled one can only be false.
+        var new = existing
+        new[key] = false
+        
+        do {
+            integrations = try JSON(new)
+        } catch {
+            // this shouldn't happen, log it.
+            Journify.journifyLog(message: "Unable to convert list of integrations to JSON. \(error)", kind: .error)
+        }
+    }
+    
+    /**
+     Enable a specific cloud-mode integration using it's key name.
+     - Parameters:
+        - key: The key name of the integration to enable.
+     */
+    public mutating func enableIntegration(key: String) {
+        guard let existing = integrations?.dictionaryValue else {
+            // this shouldn't happen, might oughta log it.
+            Journify.journifyLog(message: "Unable to get what should be a valid list of integrations from event.", kind: .error)
+            return
+        }
+        
+        var new = existing
+        // if it's a dictionary already, it's considered enabled, so don't
+        // overwrite whatever they may have put there.  If that's not the case
+        // just set it to true since that's the only other value it could have
+        // to be considered `enabled`.
+        if (existing[key] as? [String: Any]) == nil {
+            new[key] = true
+        }
+        
+        do {
+            integrations = try JSON(new)
+        } catch {
+            // this shouldn't happen, log it.
+            Journify.journifyLog(message: "Unable to convert list of integrations to JSON. \(error)", kind: .error)
+        }
+    }
+    
+}
+
 // MARK: - RawEvent data helpers
 
 extension RawEvent {
@@ -103,6 +223,7 @@ extension RawEvent {
             userId = e.userId
             timestamp = e.timestamp
             context = e.context
+            integrations = e.integrations
         }
     }
 
@@ -115,7 +236,8 @@ extension RawEvent {
         result.userId = userInfo.userId
         result.messageId = UUID().uuidString
         result.timestamp = Date().iso8601()
-        
+        result.integrations = try? JSON([String: Any]())
+
         return result
     }
 }

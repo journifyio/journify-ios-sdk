@@ -53,6 +53,44 @@ public class ObjCConfiguration: NSObject {
     }
     
     @objc
+    public var defaultSettings: [String: Any] {
+        get {
+            var result = [String: Any]()
+            do {
+                let encoder = JSONEncoder()
+                let json = try encoder.encode(configuration.values.defaultSettings)
+                if let r = try JSONSerialization.jsonObject(with: json) as? [String: Any] {
+                    result = r
+                }
+            } catch {
+                // not sure why this would fail, but report it.
+                exceptionFailure("Failed to convert Settings to ObjC dictionary: \(error)")
+            }
+            return result
+        }
+        set(value) {
+            do {
+                let json = try JSONSerialization.data(withJSONObject: value, options: .prettyPrinted)
+                let decoder = JSONDecoder()
+                let settings = try decoder.decode(Settings.self, from: json)
+                configuration.defaultSettings(settings)
+            } catch {
+                exceptionFailure("Failed to convert defaultSettings to Settings object: \(error)")
+            }
+        }
+    }
+    
+    @objc
+    public var autoAddSegmentDestination: Bool {
+        get {
+            return configuration.values.autoAddSegmentDestination
+        }
+        set(value) {
+            configuration.autoAddSegmentDestination(value)
+        }
+    }
+    
+    @objc
     public var apiHost: String {
         get {
             return configuration.values.apiHost
@@ -62,6 +100,16 @@ public class ObjCConfiguration: NSObject {
         }
     }
 
+    @objc
+    public var cdnHost: String {
+        get {
+            return configuration.values.cdnHost
+        }
+        set(value) {
+            configuration.cdnHost(value)
+        }
+    }
+    
     @objc
     public init(writeKey: String) {
         self.configuration = Configuration(writeKey: writeKey)

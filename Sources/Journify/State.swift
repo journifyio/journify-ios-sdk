@@ -11,14 +11,28 @@ import Sovran
 
 struct System: State {
     let configuration: Configuration
+    let settings: Settings?
     let running: Bool
     let enabled: Bool
+    
+    struct UpdateSettingsAction: Action {
+        let settings: Settings
+        
+        func reduce(state: System) -> System {
+            let result = System(configuration: state.configuration,
+                                settings: settings,
+                                running: state.running,
+                                enabled: state.enabled)
+            return result
+        }
+    }
         
     struct ToggleRunningAction: Action {
         let running: Bool
         
         func reduce(state: System) -> System {
             return System(configuration: state.configuration,
+                          settings: state.settings,
                           running: running,
                           enabled: state.enabled)
         }
@@ -29,6 +43,7 @@ struct System: State {
         
         func reduce(state: System) -> System {
             return System(configuration: state.configuration,
+                          settings: state.settings,
                           running: state.running,
                           enabled: enabled)
         }
@@ -39,6 +54,23 @@ struct System: State {
         
         func reduce(state: System) -> System {
             return System(configuration: configuration,
+                          settings: state.settings,
+                          running: state.running,
+                          enabled: state.enabled)
+        }
+    }
+    
+    struct AddDestinationToSettingsAction: Action {
+        let key: String
+        
+        func reduce(state: System) -> System {
+            var settings = state.settings
+            if var integrations = settings?.integrations?.dictionaryValue {
+                integrations[key] = true
+                settings?.integrations = try? JSON(integrations)
+            }
+            return System(configuration: state.configuration,
+                          settings: settings,
                           running: state.running,
                           enabled: state.enabled)
         }
@@ -106,8 +138,15 @@ struct UserInfo: Codable, State {
 
 extension System {
     static func defaultState(configuration: Configuration, from storage: Storage) -> System {
-
-        return System(configuration: configuration, running: false, enabled: true)
+        var settings: Settings? = storage.read(.settings)
+        if settings == nil {
+            if let defaults = configuration.values.defaultSettings {
+                settings = defaults
+            } else {
+                settings = Settings(writeKey: configuration.values.writeKey, apiHost: HTTPClient.getDefaultAPIHost())
+            }
+        }
+        return System(configuration: configuration, settings: settings, running: false, enabled: true)
     }
 }
 
