@@ -154,7 +154,7 @@ class JSONTests: XCTestCase {
         // some issues w/ type conversion to float.
         let float = typedDict?["float"] as? Decimal
         #else
-        let float = typedDict?["float"] as? Float
+        let float = (typedDict?["float"] as? NSNumber)?.floatValue
         #endif
         let int = typedDict?["int"] as? Int
         let uint = typedDict?["uint"] as? UInt

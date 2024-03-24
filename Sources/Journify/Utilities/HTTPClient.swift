@@ -17,7 +17,7 @@ enum HTTPClientErrors: Error {
 
 public class HTTPClient {
     private static let defaultAPIHost = "t.journify.io/v1"
-    private static let defaultCDNHost = "static.journify.dev"
+    private static let defaultCDNHost = "static.journify.io/write_keys"
 
     internal var session: URLSession
     private var apiHost: String
@@ -89,10 +89,8 @@ public class HTTPClient {
             completion(false, nil)
             return
         }
-        
-        settingsURL = URL(string: "https://static.journify.dev/write_keys/clevertap_demo.json")! //BMEX remove this line
-        
-        let urlRequest = configuredRequest(for: settingsURL, method: "GET")
+                
+        let urlRequest = configuredRequest(for: settingsURL, method: "GET", shouldAuthen: false)
         
         let dataTask = session.dataTask(with: urlRequest) { [weak self] (data, response, error) in
             if let error = error {
@@ -116,7 +114,9 @@ public class HTTPClient {
             }
             
             do {
-                let responseJSON = try JSONDecoder().decode(Settings.self, from: data)
+                var responseJSON = try JSONDecoder().decode(Settings.self, from: data)
+                let newIntegrations = Settings.mapJournifyIntegrationsJSON(integrations: responseJSON.integrations)
+                responseJSON.integrations = newIntegrations
                 completion(true, responseJSON)
             } catch {
                 self?.analytics?.reportInternalError(AnalyticsError.jsonUnableToDeserialize(error))
@@ -166,13 +166,15 @@ extension HTTPClient {
         return Self.defaultCDNHost
     }
     
-    internal func configuredRequest(for url: URL, method: String) -> URLRequest {
+    internal func configuredRequest(for url: URL, method: String, shouldAuthen: Bool = true) -> URLRequest {
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         request.httpMethod = method
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.addValue("analytics-ios/\(Journify.version())", forHTTPHeaderField: "User-Agent")
         request.addValue("gzip", forHTTPHeaderField: "Accept-Encoding")
-        request.setValue("Basic " + HTTPClient.authorizationHeaderForWriteKey(self.apiKey), forHTTPHeaderField: "Authorization")
+        if shouldAuthen {
+            request.setValue("Basic " + HTTPClient.authorizationHeaderForWriteKey(self.apiKey), forHTTPHeaderField: "Authorization")
+        }
 
         if let requestFactory = analytics?.configuration.values.requestFactory {
             request = requestFactory(request)

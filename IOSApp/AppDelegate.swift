@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .trackApplicationLifecycleEvents(true)
             .flushInterval(10)
 
+        Journify.debugLogsEnabled = true
         Journify.setup(with: configuration)
 
         Journify.shared().track(name: "New Event", properties: ["Name": "Mohamed"], externalId: ["testKey": "test"])

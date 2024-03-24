@@ -75,7 +75,7 @@ extension Journify {
     }
 }
 #elseif os(watchOS)
-extension Analytics {
+extension Journify {
     internal func setupSettingsCheck() {
         // TBD: we don't know what to do here yet.
         checkSettings()
@@ -83,7 +83,7 @@ extension Analytics {
 }
 #elseif os(macOS)
 import Cocoa
-extension Analytics {
+extension Journify {
     internal func setupSettingsCheck() {
         // do the first one
         checkSettings()
@@ -96,7 +96,7 @@ extension Analytics {
     }
 }
 #elseif os(Linux)
-extension Analytics {
+extension Journify {
     internal func setupSettingsCheck() {
         checkSettings()
     }
