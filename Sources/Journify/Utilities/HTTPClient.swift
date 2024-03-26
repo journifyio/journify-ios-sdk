@@ -17,11 +17,13 @@ enum HTTPClientErrors: Error {
 
 public class HTTPClient {
     private static let defaultAPIHost = "t.journify.io/v1"
-    
+    private static let defaultCDNHost = "static.journify.io/write_keys"
+
     internal var session: URLSession
     private var apiHost: String
     private var apiKey: String
-    
+    private var cdnHost: String
+
     private weak var analytics: Journify?
     
     init(analytics: Journify) {
@@ -29,7 +31,8 @@ public class HTTPClient {
         
         self.apiKey = analytics.configuration.values.writeKey
         self.apiHost = analytics.configuration.values.apiHost
-        
+        self.cdnHost = analytics.configuration.values.cdnHost
+
         self.session = Self.configuredSession(for: self.apiKey)
     }
     
@@ -81,6 +84,51 @@ public class HTTPClient {
         return dataTask
     }
     
+    func settingsFor(writeKey: String, completion: @escaping (Bool, Settings?) -> Void) {
+        guard var settingsURL = journifyURL(for: cdnHost, path: "/\(writeKey).json") else {
+            completion(false, nil)
+            return
+        }
+                
+        let urlRequest = configuredRequest(for: settingsURL, method: "GET", shouldAuthen: false)
+        
+        let dataTask = session.dataTask(with: urlRequest) { [weak self] (data, response, error) in
+            if let error = error {
+                self?.analytics?.reportInternalError(AnalyticsError.networkUnknown(error))
+                completion(false, nil)
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode > 300 {
+                    self?.analytics?.reportInternalError(AnalyticsError.networkUnexpectedHTTPCode(httpResponse.statusCode))
+                    completion(false, nil)
+                    return
+                }
+            }
+
+            guard let data = data else {
+                self?.analytics?.reportInternalError(AnalyticsError.networkInvalidData)
+                completion(false, nil)
+                return
+            }
+            
+            do {
+                var responseJSON = try JSONDecoder().decode(Settings.self, from: data)
+                let newIntegrations = Settings.mapJournifyIntegrationsJSON(integrations: responseJSON.integrations)
+                responseJSON.integrations = newIntegrations
+                completion(true, responseJSON)
+            } catch {
+                self?.analytics?.reportInternalError(AnalyticsError.jsonUnableToDeserialize(error))
+                completion(false, nil)
+                return
+            }
+            
+        }
+        
+        dataTask.resume()
+    }
+    
     func parseJsonData(data: Data?) -> Any? {
         guard let data = data else { return nil }
         do {
@@ -114,13 +162,19 @@ extension HTTPClient {
         return Self.defaultAPIHost
     }
     
-    internal func configuredRequest(for url: URL, method: String) -> URLRequest {
+    internal static func getDefaultCDNHost() -> String {
+        return Self.defaultCDNHost
+    }
+    
+    internal func configuredRequest(for url: URL, method: String, shouldAuthen: Bool = true) -> URLRequest {
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         request.httpMethod = method
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.addValue("analytics-ios/\(Journify.version())", forHTTPHeaderField: "User-Agent")
         request.addValue("gzip", forHTTPHeaderField: "Accept-Encoding")
-        request.setValue("Basic " + HTTPClient.authorizationHeaderForWriteKey(self.apiKey), forHTTPHeaderField: "Authorization")
+        if shouldAuthen {
+            request.setValue("Basic " + HTTPClient.authorizationHeaderForWriteKey(self.apiKey), forHTTPHeaderField: "Authorization")
+        }
 
         if let requestFactory = analytics?.configuration.values.requestFactory {
             request = requestFactory(request)

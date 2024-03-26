@@ -32,6 +32,7 @@ public protocol Plugin: AnyObject {
     var analytics: Journify? { get set }
     
     func configure(analytics: Journify)
+    func update(settings: Settings, type: UpdateType)
     func execute<T: RawEvent>(event: T?) -> T?
     func shutdown()
 }

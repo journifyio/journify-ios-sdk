@@ -151,6 +151,7 @@ extension Storage {
         case userId = "journify.userId"
         case traits = "journify.traits"
         case anonymousId = "journify.anonymousId"
+        case settings = "segment.settings"
         case events = "journify.events"
     }
 }
@@ -167,6 +168,9 @@ extension Storage {
     
     internal func systemUpdate(state: System) {
         // write new stuff to disk
+        if let s = state.settings {
+            write(.settings, value: s)
+        }
     }
 }
 

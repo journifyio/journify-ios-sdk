@@ -54,6 +54,9 @@ public class Timeline {
 internal class Mediator {
     internal func add(plugin: Plugin) {
         plugins.append(plugin)
+        if let settings = plugin.analytics?.settings() {
+            plugin.update(settings: settings, type: .initial)
+        }
     }
     
     internal func remove(plugin: Plugin) {
@@ -151,6 +154,10 @@ extension Plugin {
         // do nothing.
         return event
     }
+    
+    public func update(settings: Settings, type: UpdateType) {
+        // do nothing by default, user can override.
+    }
 
     public func shutdown() {
         // do nothing by default, user can override.
@@ -201,6 +208,20 @@ extension DestinationPlugin {
         }
         return result
     }
+    
+    internal func isDestinationEnabled(event: RawEvent) -> Bool {
+        var customerDisabled = false
+        if let disabled: Bool = event.integrations?.value(forKeyPath: KeyPath(self.key)), disabled == false {
+            customerDisabled = true
+        }
+        
+        var hasSettings = false
+        if let settings = analytics?.settings() {
+            hasSettings = settings.hasIntegrationSettings(forPlugin: self)
+        }
+        
+        return (hasSettings == true && customerDisabled == false)
+    }
 
     internal func process<E: RawEvent>(incomingEvent: E) -> E? {
         // This will process plugins (think destination middleware) that are tied
@@ -208,14 +229,15 @@ extension DestinationPlugin {
         
         var result: E? = nil
         
-        // apply .before and .enrichment types first ...
-        let beforeResult = timeline.applyPlugins(type: .before, event: incomingEvent)
-        let enrichmentResult = timeline.applyPlugins(type: .enrichment, event: beforeResult)
-        
-        // now we execute any overrides we may have made.  basically, the idea is to take an
-        // incoming event, like identify, and map it to whatever is appropriate for this destination.
-        var destinationResult: E? = nil
-        switch enrichmentResult {
+        if isDestinationEnabled(event: incomingEvent) {
+            // apply .before and .enrichment types first ...
+            let beforeResult = timeline.applyPlugins(type: .before, event: incomingEvent)
+            let enrichmentResult = timeline.applyPlugins(type: .enrichment, event: beforeResult)
+            
+            // now we execute any overrides we may have made.  basically, the idea is to take an
+            // incoming event, like identify, and map it to whatever is appropriate for this destination.
+            var destinationResult: E? = nil
+            switch enrichmentResult {
             case let e as IdentifyEvent:
                 destinationResult = identify(event: e) as? E
             case let e as TrackEvent:
@@ -224,11 +246,11 @@ extension DestinationPlugin {
                 destinationResult = screen(event: e) as? E
             default:
                 break
+            }
+            
+            // apply .after plugins ...
+            result = timeline.applyPlugins(type: .after, event: destinationResult)
         }
-        
-        // apply .after plugins ...
-        result = timeline.applyPlugins(type: .after, event: destinationResult)
-
         
         return result
     }

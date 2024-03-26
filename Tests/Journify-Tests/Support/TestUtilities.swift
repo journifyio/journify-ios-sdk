@@ -85,6 +85,13 @@ class MyDestination: DestinationPlugin {
         self.disabled = disabled
     }
     
+    func update(settings: Settings, type: UpdateType) {
+        if disabled == false {
+            // add ourselves to the settings
+            analytics?.manuallyEnableDestination(plugin: self)
+        }
+    }
+    
     func track(event: TrackEvent) -> TrackEvent? {
         var returnEvent: TrackEvent? = event
         if let completion = trackCompletion {
