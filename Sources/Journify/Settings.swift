@@ -83,15 +83,17 @@ public struct Settings: Codable {
         if let integrations = integrations?.arrayValue as? [[String: Any]] {
             var journifyIntegrations: [String: [String: Any]] = [:]
             for item in integrations {
-                if let destination_app = item["destination_app"] as? String,
-                   let settings = item["settings"] as? [[String: Any]]{
-                    var newSettings: [String: Any] = [:]
-                    for item in settings {
-                        if let key = item["key"] as? String {
-                            newSettings[key] = item["value"]
+                if let destination_app = item["destination_app"] as? String {
+                    journifyIntegrations[destination_app] = [:]
+                    if let settings = item["settings"] as? [[String: Any]] {
+                        var newSettings: [String: Any] = [:]
+                        for item in settings {
+                            if let key = item["key"] as? String {
+                                newSettings[key] = item["value"]
+                            }
                         }
+                        journifyIntegrations[destination_app] = newSettings
                     }
-                    journifyIntegrations[destination_app] = newSettings
                 }
             }
             do {
