@@ -84,7 +84,7 @@ public struct Settings: Codable {
             var journifyIntegrations: [String: [String: Any]] = [:]
             for item in integrations {
                 if let destination_app = item["destination_app"] as? String {
-                    journifyIntegrations[destination_app] = [:]
+                    var destinationAppDict: [String: Any] = [:]
                     if let settings = item["settings"] as? [[String: Any]] {
                         var newSettings: [String: Any] = [:]
                         for item in settings {
@@ -92,8 +92,12 @@ public struct Settings: Codable {
                                 newSettings[key] = item["value"]
                             }
                         }
-                        journifyIntegrations[destination_app] = newSettings
+                        destinationAppDict = newSettings
                     }
+                    if let eventMappings = item["event_mappings"] as? [[String: Any]] {
+                        destinationAppDict["event_mappings"] = eventMappings
+                    }
+                    journifyIntegrations[destination_app] = destinationAppDict
                 }
             }
             do {
