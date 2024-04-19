@@ -61,7 +61,12 @@ public struct Settings: Codable {
         var result: T? = nil
         guard let settings = integrations?.dictionaryValue else { return nil }
         if let dict = settings[key], let jsonData = try? JSONSerialization.data(withJSONObject: dict) {
-            result = try? JSONDecoder().decode(T.self, from: jsonData)
+            do {
+                result = try JSONDecoder().decode(T.self, from: jsonData)
+            } catch {
+                print("Failed to convert json: \(error.localizedDescription)")
+                return nil
+            }
         }
         return result
     }
