@@ -160,6 +160,42 @@ final class Journify_Tests: XCTestCase {
         XCTAssertTrue(props?["email"] as? String == "ben@med.com")
     }
     
+    func testTraitsExistenceInTrackEvents() {
+        Journify.setup(with: Configuration(writeKey: "test"))
+        let outputReader = OutputReaderPlugin()
+        Journify.shared().add(plugin: outputReader)
+        
+        waitUntilStarted(analytics: Journify.shared())
+        
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
+        Journify.shared().track(name: "test track")
+        
+        let trackEvent: TrackEvent? = outputReader.lastEvent as? TrackEvent
+        let traits = trackEvent?.traits?.dictionaryValue
+
+        XCTAssertTrue(trackEvent?.event == "test track")
+        XCTAssertTrue(trackEvent?.type == "track")
+        XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
+    }
+    
+    func testTraitsExistenceInScreenEvents() {
+        Journify.setup(with: Configuration(writeKey: "test"))
+        let outputReader = OutputReaderPlugin()
+        Journify.shared().add(plugin: outputReader)
+        
+        waitUntilStarted(analytics: Journify.shared())
+        
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: "ben@med.com"))
+        Journify.shared().screen(title: "screen1", category: "category1")
+
+        let screenEvent: ScreenEvent? = outputReader.lastEvent as? ScreenEvent
+        let traits = screenEvent?.traits?.dictionaryValue
+
+        XCTAssertTrue(screenEvent?.name == "screen1")
+        XCTAssertTrue(screenEvent?.type == "page")
+        XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
+    }
+    
     func testReset() {
         Journify.setup(with: Configuration(writeKey: "test"))
         let outputReader = OutputReaderPlugin()

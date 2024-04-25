@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Journify.debugLogsEnabled = true
         Journify.setup(with: configuration)
+        let traits: [String: Any] = ["data1": "data_1",
+                      "data2": 12]
+
+        Journify.shared().identify(userId: "testId", traits: traits)
 
         Journify.shared().track(name: "New Event", properties: ["Name": "Mohamed"], externalId: ["testKey": "test"])
         Journify.shared().screen(title: "New Screen", properties: ["title": "Growth as a service", "url": "https://journify.io", "path": "/"])

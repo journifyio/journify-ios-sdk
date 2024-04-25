@@ -161,3 +161,23 @@ extension Journify {
         return timeline.find(key: key)
     }
 }
+
+// MARK: - Adding Traits Plugin
+
+class InjectTraitsPlugin: Plugin {
+    var analytics: Journify?
+    var type: PluginType = .enrichment
+    
+    public func execute<T: RawEvent>(event: T?) -> T? {
+        var event = event
+        guard event?.type != "identify" else { return event }
+        do{
+            let traits: JSON = try JSON(analytics?.traits() ?? [:])
+            event?.traits = traits
+        } catch let error {
+            print("Failed to creat json: \(error.localizedDescription)")
+            return event
+        }
+        return event
+    }
+}
