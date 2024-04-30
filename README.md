@@ -31,6 +31,7 @@ Note: Journify recommends that you use Xcode to add your package.
             .trackApplicationLifecycleEvents(true)
             .flushInterval(10)
 
+Journify.debugLogsEnabled = true //show debug logs
 Journify.setup(with: configuration)
 
 Journify.shared().track(name: "New Event", properties: ["Name": "Custom"], externalId: ["testKey": "test"])
