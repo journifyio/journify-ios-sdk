@@ -1,4 +1,5 @@
 import XCTest
+import CryptoKit
 @testable import Journify
 
 final class Journify_Tests: XCTestCase {
@@ -394,5 +395,23 @@ final class Journify_Tests: XCTestCase {
         Journify.shared().flush()
         
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 5))
+    }
+    
+    func testEnableHashing() {
+        Journify.setup(with: Configuration(writeKey: "test").enableHashing(true))
+        let outputReader = OutputReaderPlugin()
+        Journify.shared().add(plugin: outputReader)
+        
+        waitUntilStarted(analytics: Journify.shared())
+        
+        let email = "ben@med.com"
+        Journify.shared().identify(userId: "BenMed", traits: MyTraits(email: email))
+    
+        let identifyEvent: IdentifyEvent? = outputReader.lastEvent as? IdentifyEvent
+        let traits = identifyEvent?.traits
+        let traitsEmailValue = traits?.dictionaryValue?["email"] as? String
+        let hashedEmail = SHA256.hash(data: Data(email.utf8)).compactMap { String(format: "%02x", $0) }.joined()
+        
+        XCTAssertEqual(traitsEmailValue, hashedEmail)
     }
 }

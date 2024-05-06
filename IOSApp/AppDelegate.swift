@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = Configuration(writeKey: "Your_Key")
             .trackApplicationLifecycleEvents(true)
             .flushInterval(10)
+            .enableHashing(true)
 
         Journify.debugLogsEnabled = true
         Journify.setup(with: configuration)

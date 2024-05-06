@@ -53,6 +53,16 @@ public class ObjCConfiguration: NSObject {
     }
     
     @objc
+    public var enableHashing: Bool {
+        get {
+            return configuration.values.enableHashing
+        }
+        set(value) {
+            configuration.enableHashing(value)
+        }
+    }
+    
+    @objc
     public var defaultSettings: [String: Any] {
         get {
             var result = [String: Any]()

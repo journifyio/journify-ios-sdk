@@ -18,6 +18,7 @@ public class Configuration {
         var trackApplicationLifecycleEvents: Bool = true
         var flushAt: Int = 20
         var flushInterval: TimeInterval = 30
+        var enableHashing: Bool = false
         var defaultSettings: Settings? = nil
         var autoAddSegmentDestination: Bool = true
         var apiHost: String = HTTPClient.getDefaultAPIHost()
@@ -58,6 +59,12 @@ public extension Configuration {
     @discardableResult
     func flushInterval(_ interval: TimeInterval) -> Configuration {
         values.flushInterval = interval
+        return self
+    }
+    
+    @discardableResult
+    func enableHashing(_ enabled: Bool) -> Configuration {
+        values.enableHashing = enabled
         return self
     }
     
