@@ -131,6 +131,19 @@ extension Journify {
         }
     }
     
+    /// Adjusts the enableHashing post configuration.
+    public var enableHashing: Bool {
+        get {
+            configuration.values.enableHashing
+        }
+        set(value) {
+            if let state: System = store.currentState() {
+                let config = state.configuration.enableHashing(value)
+                store.dispatch(action: System.UpdateConfigurationAction(configuration: config))
+            }
+        }
+    }
+    
     /// Adjusts the flush-at count post configuration.
     public var flushAt: Int {
         get {
