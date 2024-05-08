@@ -46,7 +46,10 @@ extension Journify {
     public func identify<T: Codable>(userId: String, traits: T?) {
         do {
             if let traits = traits {
-                let jsonTraits = try JSON(with: traits)
+                var jsonTraits = try JSON(with: traits)
+                if configuration.values.enableHashing {
+                    jsonTraits = jsonTraits.hashedTraits
+                }
                 store.dispatch(action: UserInfo.SetUserIdAndTraitsAction(userId: userId, traits: jsonTraits))
                 let event = IdentifyEvent(userId: userId, traits: jsonTraits)
                 process(incomingEvent: event)
@@ -65,7 +68,10 @@ extension Journify {
     ///   - traits: A dictionary of traits you know about the user. Things like: email, name, plan, etc.
     public func identify<T: Codable>(traits: T) {
         do {
-            let jsonTraits = try JSON(with: traits)
+            var jsonTraits = try JSON(with: traits)
+            if configuration.values.enableHashing {
+                jsonTraits = jsonTraits.hashedTraits
+            }
             store.dispatch(action: UserInfo.SetTraitsAction(traits: jsonTraits))
             let event = IdentifyEvent(traits: jsonTraits)
             process(incomingEvent: event)
@@ -144,7 +150,10 @@ extension Journify {
     public func identify(userId: String, traits: [String: Any]? = nil) {
         do {
             if let traits = traits {
-                let traits = try JSON(traits as Any)
+                var traits = try JSON(traits as Any)
+                if configuration.values.enableHashing {
+                    traits = traits.hashedTraits
+                }
                 store.dispatch(action: UserInfo.SetUserIdAndTraitsAction(userId: userId, traits: traits))
                 let event = IdentifyEvent(userId: userId, traits: traits)
                 process(incomingEvent: event)

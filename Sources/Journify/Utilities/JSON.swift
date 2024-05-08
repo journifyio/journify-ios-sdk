@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import CryptoKit
 
 
 // MARK: - JSON Definition
@@ -266,6 +267,19 @@ extension JSON {
             return nil
         }
     }
+    
+    public var hashedTraits: JSON {
+        if let dicoTraits = self.dictionaryValue{
+            do{
+                let jsonTraits = try JSON(dicoTraits.hashedValues())
+                return jsonTraits
+            } catch let error {
+                print("Failed to creat json: \(error.localizedDescription)")
+                return self
+            }
+        }
+        return self
+    }
 }
 
 // MARK: - Mutation
@@ -500,6 +514,22 @@ extension Dictionary where Key == String, Value == Any {
         })
         
         return mapped
+    }
+
+    func hashedValues() -> [String: Any] {
+        var hashedDict = [String: Any]()
+        
+        for (key, value) in self {
+            if let stringValue = value as? String {
+                // If the value is a String, hash it using SHA-256
+                let hashedValue = SHA256.hash(data: Data(stringValue.utf8)).compactMap { String(format: "%02x", $0) }.joined()
+                hashedDict[key] = hashedValue
+            } else {
+                // If the value is not a String leave it unchanged
+                hashedDict[key] = value
+            }
+        }
+        return hashedDict
     }
 }
 
