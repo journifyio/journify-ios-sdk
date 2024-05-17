@@ -193,7 +193,7 @@ final class Journify_Tests: XCTestCase {
         let traits = screenEvent?.traits?.dictionaryValue
 
         XCTAssertTrue(screenEvent?.name == "screen1")
-        XCTAssertTrue(screenEvent?.type == "page")
+        XCTAssertTrue(screenEvent?.type == "screen")
         XCTAssertTrue(traits?["email"] as? String == "ben@med.com")
     }
     
