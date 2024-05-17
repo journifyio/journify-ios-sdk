@@ -72,7 +72,7 @@ public struct IdentifyEvent: RawEvent {
 }
 
 public struct ScreenEvent: RawEvent {
-    public var type: String? = "page"
+    public var type: String? = "screen"
     public var anonymousId: String? = nil
     public var messageId: String? = nil
     public var userId: String? = nil
