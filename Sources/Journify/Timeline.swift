@@ -210,6 +210,7 @@ extension DestinationPlugin {
     }
     
     internal func isDestinationEnabled(event: RawEvent) -> Bool {
+        if self.key == JournifyDestination.Constants.integrationName.rawValue { return true }
         var customerDisabled = false
         if let disabled: Bool = event.integrations?.value(forKeyPath: KeyPath(self.key)), disabled == false {
             customerDisabled = true
