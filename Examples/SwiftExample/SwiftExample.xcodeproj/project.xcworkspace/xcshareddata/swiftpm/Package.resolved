@@ -1,4 +1,5 @@
 {
+  "originHash" : "a5d197dc8389ca6106fedc8186237eab9c0477c0cd876da9d4b80ad783beca5a",
   "pins" : [
     {
       "identity" : "fakery",
@@ -15,7 +16,7 @@
       "location" : "https://github.com/journifyio/journify-ios-sdk",
       "state" : {
         "branch" : "main",
-        "revision" : "fe4a8ed6005fc64c8e00487d53f9db26819516eb"
+        "revision" : "990db9420cfcf45d4070b1bd0291480286662f89"
       }
     },
     {
