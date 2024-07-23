@@ -142,25 +142,31 @@ public class JournifyDestination: DestinationPlugin, Subscriber {
         if pendingUploads == 0 {
             for url in data {
                 analytics.log(message: "Processing Batch:\n\(url.lastPathComponent)")
-                
-                let uploadTask = httpClient.startBatchUpload(writeKey: analytics.configuration.values.writeKey, batch: url) { (result) in
-                    switch result {
-                        case .success(_):
-                            storage.remove(file: url)
-                            self.cleanupUploads()
-                        default:
-                            analytics.logFlush()
+                let result = JSON.readJSONFile(from: url)
+                if result.isValid {
+                    let uploadTask = httpClient.startBatchUpload(writeKey: analytics.configuration.values.writeKey, batch: url) { (result) in
+                        switch result {
+                            case .success(_):
+                                storage.remove(file: url)
+                                self.cleanupUploads()
+                            case .failure(HTTPClientErrors.statusCode(code: 400)):
+                                storage.remove(file: url)
+                                self.cleanupUploads()
+                            default:
+                                analytics.logFlush()
+                        }
+                        analytics.log(message: "Processed: \(url.lastPathComponent)")
+                        // the upload we have here has just finished.
+                        // make sure it gets removed and it's cleanup() called rather
+                        // than waiting on the next flush to come around.
+                        self.cleanupUploads()
                     }
-                    
-                    analytics.log(message: "Processed: \(url.lastPathComponent)")
-                    // the upload we have here has just finished.
-                    // make sure it gets removed and it's cleanup() called rather
-                    // than waiting on the next flush to come around.
-                    self.cleanupUploads()
-                }
-                // we have a legit upload in progress now, so add it to our list.
-                if let upload = uploadTask {
-                    add(uploadTask: UploadTaskInfo(url: url, task: upload))
+                    // we have a legit upload in progress now, so add it to our list.
+                    if let upload = uploadTask {
+                        add(uploadTask: UploadTaskInfo(url: url, task: upload))
+                    }
+                } else {
+                    storage.remove(file: url)
                 }
             }
         } else {

@@ -463,6 +463,23 @@ extension JSON {
     public mutating func setValue<T: Codable>(_ value: T?, forKeyPath keyPath: KeyPath) {
         self[keyPath: keyPath] = value
     }
+    
+    static func readJSONFile(from url: URL) -> (isValid: Bool, json: Any?) {
+        do {
+            // Read the file content from the URL
+            let data = try Data(contentsOf: url)
+            
+            // Try to decode the JSON
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            // JSON is valid
+            return (true, json)
+        } catch {
+            // An error occurred, JSON is invalid
+            print("Error reading or parsing JSON file: \(error)")
+            return (false, nil)
+        }
+    }
 
 }
 
