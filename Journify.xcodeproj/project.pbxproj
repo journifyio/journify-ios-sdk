@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -194,6 +194,10 @@
 		"Segment::Segment::Product" /* Journify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Journify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		10C8A7DD2D19A28900A41341 /* other_plugins */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = other_plugins; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		10D08144296CC712001BAABA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -275,6 +279,7 @@
 			children = (
 				96259F8426CEF534008AE301 /* Logger */,
 				969A533D25B0D510009227D9 /* Platforms */,
+				10C8A7DD2D19A28900A41341 /* other_plugins */,
 				46A018C125E5857D00F9CCD8 /* Context.swift */,
 				9692726725A583A6009B5298 /* JournifyDestination.swift */,
 				46210835260BBEE400EBC4A8 /* DeviceToken.swift */,
@@ -445,6 +450,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				10C8A7DD2D19A28900A41341 /* other_plugins */,
 			);
 			name = Journify;
 			packageProductDependencies = (
@@ -675,6 +683,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -685,6 +694,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IOSApp/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "we use this value to track usage privacy";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -726,12 +736,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IOSApp/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "we use this value to track usage privacy";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

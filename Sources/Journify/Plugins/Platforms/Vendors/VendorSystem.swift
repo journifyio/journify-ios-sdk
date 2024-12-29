@@ -12,6 +12,25 @@ internal struct ScreenSize {
 }
 
 internal class VendorSystem {
+    var manufacturer: String {
+        return "unknown"
+    }
+    
+    var type: String {
+        return "unknown"
+    }
+    
+    var model: String {
+        return "unknown"
+    }
+    
+    var name: String {
+        return "unknown"
+    }
+    
+    var identifierForVendor: String? {
+        return nil
+    }
     
     var systemName: String {
         return "unknown"

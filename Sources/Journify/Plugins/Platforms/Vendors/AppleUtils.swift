@@ -19,6 +19,38 @@ import WebKit
 internal class iOSVendorSystem: VendorSystem {
     private let device = UIDevice.current
     
+    override var manufacturer: String {
+        return "Apple"
+    }
+        
+    override var type: String {
+        #if os(iOS)
+        return "ios"
+        #elseif os(tvOS)
+        return "tvos"
+        #elseif os(visionOS)
+        return "visionos"
+        #elseif targetEnvironment(macCatalyst)
+        return "macos"
+        #else
+        return "unknown"
+        #endif
+    }
+        
+    override var model: String {
+        // eg. "iPhone5,1"
+        return deviceModel()
+    }
+    
+    override var name: String {
+        // eg. "iPod Touch"
+        return device.model
+    }
+    
+    override var identifierForVendor: String? {
+        return device.identifierForVendor?.uuidString
+    }
+    
     override var systemName: String {
         return device.systemName
     }

@@ -81,7 +81,13 @@ public class Context: PlatformPlugin {
     internal static func insertStaticPlatformContextData(context: inout [String: Any]) {
         // device
         let device = Self.device
-        
+        context["device"] = [
+            "manufacturer": device.manufacturer,
+            "type": device.type,
+            "model": device.model,
+            "name": device.name,
+            "id": device.identifierForVendor ?? ""
+        ]
         // os
         context["os"] = [
             "name": device.systemName,
