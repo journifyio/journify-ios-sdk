@@ -12,6 +12,9 @@ extension Journify: Subscriber {
     internal func platformStartup() {
         add(plugin: JournifyLog())
         add(plugin: StartupQueue())
+        if #available(iOS 14, *) {
+            add(plugin: IDFACollection())
+        }
         add(plugin: InjectTraitsPlugin())
         // add journify destination plugin unless
         // asked not to via configuration.
