@@ -5,11 +5,7 @@
 //  Created by Mohammed on 2/8/23.
 //
 
-#if canImport(UIKit)
-
 import UIKit
-
-#endif
 import Journify
 
 class OutputPlugin: Plugin {

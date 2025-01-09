@@ -7,11 +7,7 @@
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 
 import Foundation
-#if canImport(UIKit)
-
 import UIKit
-
-#endif
 
 // NOTE: These method signatures are marked optional as application extensions may not have
 // a UIApplication object available.  See `safeShared` below.

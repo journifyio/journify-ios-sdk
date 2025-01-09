@@ -8,11 +8,7 @@ import Foundation
 
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 
-#if canImport(UIKit)
-
 import UIKit
-
-#endif
 
 // MARK: - Remote Notifications
 

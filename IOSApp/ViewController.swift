@@ -5,11 +5,7 @@
 //  Created by bendnaiba on 1/9/23.
 //
 
-#if canImport(UIKit)
-
 import UIKit
-
-#endif
 
 class ViewController: UIViewController {
 
