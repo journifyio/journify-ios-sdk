@@ -5,7 +5,11 @@
 //  Created by Bendnaiba on 2/23/23.
 //
 
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 import Journify
 
 class AppDelegate: NSObject, UIApplicationDelegate {

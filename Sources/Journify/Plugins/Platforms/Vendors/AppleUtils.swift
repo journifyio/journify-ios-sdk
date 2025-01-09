@@ -11,7 +11,11 @@ import Foundation
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 
 import SystemConfiguration
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 #if !os(tvOS)
 import WebKit
 #endif

@@ -5,7 +5,11 @@
 //  Created by Bendnaiba on 2/13/23.
 //
 
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 import Journify
 import Fakery
 

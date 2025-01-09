@@ -63,7 +63,11 @@ extension Journify: Subscriber {
 }
 
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 extension Journify {
     internal func setupSettingsCheck() {
         // do the first one

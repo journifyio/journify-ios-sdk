@@ -8,7 +8,11 @@ import Foundation
 
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 
 class iOSLifecycleEvents: PlatformPlugin, iOSLifecycle {
     static var versionKey = "JFVersionKey"

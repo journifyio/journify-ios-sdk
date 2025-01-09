@@ -5,7 +5,11 @@
 //  Created by Mohammed on 2/7/23.
 //
 
+#if canImport(UIKit)
+
 import UIKit
+
+#endif
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
