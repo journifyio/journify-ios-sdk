@@ -36,6 +36,9 @@ vercomp () {
 	return 0
 }
 
+brew install gh mint
+mint install unsignedapps/swift-create-xcframework
+
 # check if `gh` tool is installed.
 if ! command -v gh &> /dev/null
 then
