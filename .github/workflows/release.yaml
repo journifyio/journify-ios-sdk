@@ -1,0 +1,19 @@
+name: Release 
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    release:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install Taskfile
+              uses: arduino/setup-task@v1
+              with:
+                repo-token: ${{ secrets.GH_ACCESS_TOKEN }}
+            - name: Release
+              run: task release
+
+
