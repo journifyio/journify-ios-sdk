@@ -14,6 +14,6 @@ jobs:
             - name: Install Taskfile
               uses: arduino/setup-task@v1
               with:
-                repo-token: ${{ secrets.GH_ACCESS_TOKEN }}
+                repo-token: ${{ env.GH_TOKEN }}
             - name: Release
               run: task release
