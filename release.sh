@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_NAME="journify-ios-sdk"
+PROJECT_NAME="Journify-Package"
 PRODUCT_NAME="Journify"
 
 LOWER_PRODUCT_NAME="$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]')"
@@ -36,28 +36,7 @@ vercomp () {
 	return 0
 }
 
-brew install gh mint
-mint install unsignedapps/swift-create-xcframework
 
-# check if `gh` tool is installed.
-if ! command -v gh &> /dev/null
-then
-	echo "Github CLI tool is required, but could not be found."
-	echo "Install it via: $ brew install gh"
-	exit 1
-fi
-
-# check if `swift-create-xcframework` tool is installed.
-# command will return non-zero if not.
-if ! command -v swift-create-xcframework &> /dev/null
-then
-	echo "Swift's create-xcframework tool is required, but could not be found."
-	echo "Install it via:"
-    echo "    $ brew install mint"
-    echo "    $ mint install unsignedapps/swift-create-xcframework"
-    echo ""
-	exit 1
-fi
 
 # check if `gh` tool has auth access.
 # command will return non-zero if not auth'd.
