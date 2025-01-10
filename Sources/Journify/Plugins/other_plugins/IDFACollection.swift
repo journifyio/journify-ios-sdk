@@ -6,6 +6,8 @@
 //
 
 import Foundation
+
+#if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 import UIKit
 import AdSupport
 import AppTrackingTransparency
@@ -103,3 +105,4 @@ extension IDFACollection {
         }
     }
 }
+#endif
