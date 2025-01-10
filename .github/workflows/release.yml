@@ -7,6 +7,8 @@ on:
 jobs:
     release:
         runs-on: macos-latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         steps:
             - uses: actions/checkout@v4
             - name: Install Taskfile

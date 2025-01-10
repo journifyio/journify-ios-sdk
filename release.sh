@@ -38,14 +38,6 @@ vercomp () {
 
 
 
-# check if `gh` tool has auth access.
-# command will return non-zero if not auth'd.
-authd=$(gh auth status -t)
-if [[ $? != 0 ]]; then
-	echo "ex: $ gh auth login"
-	exit 1
-fi
-
 # check that we're on the `main` branch
 branch=$(git rev-parse --abbrev-ref HEAD)
 if [ $branch != 'main' ]
