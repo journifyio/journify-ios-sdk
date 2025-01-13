@@ -12,9 +12,6 @@ extension Journify: Subscriber {
     internal func platformStartup() {
         add(plugin: JournifyLog())
         add(plugin: StartupQueue())
-        if #available(iOS 14, *) {
-            add(plugin: IDFACollection())
-        }
         add(plugin: InjectTraitsPlugin())
         // add journify destination plugin unless
         // asked not to via configuration.
@@ -24,13 +21,19 @@ extension Journify: Subscriber {
             add(plugin: journifyDestination)
         }
         
+        // setup IDFA and IDFV plugin
+#if os(iOS) || os(tvOS)
+        if #available(iOS 14, *) {
+            add(plugin: IDFACollection())
+        }
+#endif
+        
         // Setup platform specific plugins
         if let platformPlugins = platformPlugins() {
             for plugin in platformPlugins {
                 add(plugin: plugin)
             }
         }
-        
         
         // plugins will receive any settings we currently have as they are added.
         // ... but lets go check if we have new stuff ....

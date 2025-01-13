@@ -5,6 +5,8 @@
 //  Created by Mohammed on 12/26/24.
 //
 
+#if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
+
 import Foundation
 import UIKit
 import AdSupport
@@ -103,3 +105,4 @@ extension IDFACollection {
         }
     }
 }
+#endif
