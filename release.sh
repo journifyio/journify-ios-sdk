@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_NAME="journify-ios-sdk"
+PROJECT_NAME="Journify-Package"
 PRODUCT_NAME="Journify"
 
 LOWER_PRODUCT_NAME="$(echo ${PRODUCT_NAME} | tr '[:upper:]' '[:lower:]')"
@@ -37,15 +37,6 @@ vercomp () {
 }
 
 
-
-
-# check if `gh` tool has auth access.
-# command will return non-zero if not auth'd.
-authd=$(gh auth status -t)
-if [[ $? != 0 ]]; then
-	echo "ex: $ gh auth login"
-	exit 1
-fi
 
 # check that we're on the `main` branch
 branch=$(git rev-parse --abbrev-ref HEAD)
@@ -93,15 +84,6 @@ then
 	exit 1
 fi
 
-#read -r -p "Are you sure you want to release $newVersion? [y/N] " response
-#case "$response" in
-#	[yY][eE][sS]|[yY])
-#		;;
-#	*)
-#		exit 1
-#		;;
-#esac
-
 # get the commits since the last release...
 # note: we do this here so the "Version x.x.x" commit doesn't show up in logs.
 changelog=$(git log --pretty=format:"- (%an) %s" $(git describe --tags --abbrev=0 @^)..@)
@@ -112,12 +94,12 @@ echo -e "$changelog" >> $tempFile
 # update sources/Segment/Version.swift
 # - remove last line...
 sed -i '' -e '$ d' $versionFile
-# - add new line w/ new version
+## - add new line w/ new version
 echo "internal let __${LOWER_PRODUCT_NAME}_version = \"$newVersion\"" >> $versionFile
 
-# commit the version change.
+## commit the version change.
 git commit -am "Version $newVersion" && git push
-# gh release will make both the tag and the release itself.
+## gh release will make both the tag and the release itself.
 gh release create $newVersion -F $tempFile -t "Version $newVersion"
 
 # remove the tempfile.
@@ -127,5 +109,4 @@ rm $tempFile
 ./build.sh
 
 # upload the release
-gh release upload $newVersion ${PRODUCT_NAME}.zip
-gh release upload $newVersion ${PRODUCT_NAME}.sha256
+gh release upload $newVersion ${PRODUCT_NAME}.xcframework.zip
