@@ -26,11 +26,5 @@ jobs:
             with:
               tag_prefix: ""
       
-          #- name: Latest Tag
-          #  id: tag
-          #  run: |
-          #    tag=$(git describe --tags --abbrev=0)
-          #    echo "latest_tag=$tag" >> "$GITHUB_OUTPUT"
-
           - name: Release
             run: task release TAG=${{ steps.version.outputs.version_tag }}
