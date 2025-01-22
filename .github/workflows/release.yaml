@@ -1,0 +1,31 @@
+name: Release 
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    release:
+        runs-on: macos-latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        steps:
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+          - uses: maxim-lobanov/setup-xcode@v1
+            with:
+              xcode-version: 16.1
+          - name: Install Taskfile
+            uses: arduino/setup-task@v1
+            with:
+              repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          - name: Latest Tag
+            id: tag
+            run: |
+              tag=$(git describe --tags --abbrev=0)
+              echo "latest_tag=$tag" >> "$GITHUB_OUTPUT"
+
+          - name: Release
+            run: task release TAG=${{ steps.tag.outputs.latest_tag }}
