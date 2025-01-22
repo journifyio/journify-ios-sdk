@@ -20,12 +20,21 @@ jobs:
             uses: arduino/setup-task@v1
             with:
               repo-token: ${{ secrets.GITHUB_TOKEN }}
+          - name: Version
+            uses: paulhatch/semantic-version@v4.0.2
+            id: version
+            with:
+              tag_prefix: ""
+      
+          - name: Tag
+            uses: rickstaa/action-create-tag@v1
+            with:
+              tag: ${{ steps.version.outputs.version_tag }}
+          #- name: Latest Tag
+          #  id: tag
+          #  run: |
+          #    tag=$(git describe --tags --abbrev=0)
+          #    echo "latest_tag=$tag" >> "$GITHUB_OUTPUT"
 
-          - name: Latest Tag
-            id: tag
-            run: |
-              tag=$(git describe --tags --abbrev=0)
-              echo "latest_tag=$tag" >> "$GITHUB_OUTPUT"
-
-          - name: Release
-            run: task release TAG=${{ steps.tag.outputs.latest_tag }}
+          #- name: Release
+          #  run: task release TAG=${{ steps.version.outputs.version_tag }}
