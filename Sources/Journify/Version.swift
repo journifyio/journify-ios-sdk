@@ -9,4 +9,4 @@
 // Use release.sh's automation.
 
 // BREAKING.FEATURE.FIX
-internal let __journify_version = "0.1.6"
+internal let __journify_version = "0.1.7"
