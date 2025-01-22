@@ -313,8 +313,6 @@ extension Storage {
             return
         }
         
-        let sentAt = Date().iso8601()
-
         // write it to the existing file
         let fileEnding = "]}"
         do {
