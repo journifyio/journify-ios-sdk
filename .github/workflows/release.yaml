@@ -26,10 +26,6 @@ jobs:
             with:
               tag_prefix: ""
       
-          - name: Tag
-            uses: rickstaa/action-create-tag@v1
-            with:
-              tag: ${{ steps.version.outputs.version_tag }}
           #- name: Latest Tag
           #  id: tag
           #  run: |
