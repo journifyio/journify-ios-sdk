@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Sovran
 
 internal class Storage: Subscriber {
     let writeKey: String
@@ -314,8 +313,6 @@ extension Storage {
             return
         }
         
-        let sentAt = Date().iso8601()
-
         // write it to the existing file
         let fileEnding = "]}"
         do {

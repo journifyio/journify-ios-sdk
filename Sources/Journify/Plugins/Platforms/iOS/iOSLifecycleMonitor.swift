@@ -190,7 +190,7 @@ extension JournifyDestination.UploadTaskInfo {
         
         if let application = UIApplication.safeShared {
             var taskIdentifier: UIBackgroundTaskIdentifier = .invalid
-            taskIdentifier = application.beginBackgroundTask {
+            taskIdentifier = application.beginBackgroundTask { [taskIdentifier] in
                 task.cancel()
                 application.endBackgroundTask(taskIdentifier)
             }

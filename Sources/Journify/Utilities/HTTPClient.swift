@@ -85,7 +85,7 @@ public class HTTPClient {
     }
     
     func settingsFor(writeKey: String, completion: @escaping (Bool, Settings?) -> Void) {
-        guard var settingsURL = journifyURL(for: cdnHost, path: "/\(writeKey).json") else {
+        guard let settingsURL = journifyURL(for: cdnHost, path: "/\(writeKey).json") else {
             completion(false, nil)
             return
         }

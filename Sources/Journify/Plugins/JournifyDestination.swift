@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Sovran
 
 #if os(Linux)
 // Whoever is doing swift/linux development over there

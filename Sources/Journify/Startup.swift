@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Sovran
 
 extension Journify: Subscriber {
         

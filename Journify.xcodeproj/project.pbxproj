@@ -31,7 +31,16 @@
 		10D08156296CC715001BAABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10D08154296CC715001BAABA /* LaunchScreen.storyboard */; };
 		10D0815B296CCA7C001BAABA /* Journify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Segment::Segment::Product" /* Journify.framework */; };
 		10D0815C296CCA7C001BAABA /* Journify.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "Segment::Segment::Product" /* Journify.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		10FCDB36296C325300F502FE /* Sovran in Frameworks */ = {isa = PBXBuildFile; productRef = 10FCDB35296C325300F502FE /* Sovran */; };
+		10E1C9DF2D41023D001596E4 /* Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DD2D41023D001596E4 /* Testing.swift */; };
+		10E1C9E02D41023D001596E4 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9D92D41023D001596E4 /* Action.swift */; };
+		10E1C9E12D41023D001596E4 /* SovranState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DA2D41023D001596E4 /* SovranState.swift */; };
+		10E1C9E22D41023D001596E4 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DB2D41023D001596E4 /* Store.swift */; };
+		10E1C9E32D41023D001596E4 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DC2D41023D001596E4 /* Subscriber.swift */; };
+		10E1C9E42D41023D001596E4 /* Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DD2D41023D001596E4 /* Testing.swift */; };
+		10E1C9E52D41023D001596E4 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9D92D41023D001596E4 /* Action.swift */; };
+		10E1C9E62D41023D001596E4 /* SovranState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DA2D41023D001596E4 /* SovranState.swift */; };
+		10E1C9E72D41023D001596E4 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DB2D41023D001596E4 /* Store.swift */; };
+		10E1C9E82D41023D001596E4 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E1C9DC2D41023D001596E4 /* Subscriber.swift */; };
 		46022764261E64A800A9E913 /* iOSLifecycleEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46022763261E64A800A9E913 /* iOSLifecycleEvents.swift */; };
 		4602276C261E7BF900A9E913 /* iOSDelegation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4602276B261E7BF900A9E913 /* iOSDelegation.swift */; };
 		46022771261F7A4800A9E913 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46022770261F7A4800A9E913 /* Atomic.swift */; };
@@ -140,6 +149,11 @@
 		10D08152296CC715001BAABA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		10D08155296CC715001BAABA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		10D08157296CC715001BAABA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		10E1C9D92D41023D001596E4 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		10E1C9DA2D41023D001596E4 /* SovranState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SovranState.swift; sourceTree = "<group>"; };
+		10E1C9DB2D41023D001596E4 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		10E1C9DC2D41023D001596E4 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
+		10E1C9DD2D41023D001596E4 /* Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testing.swift; sourceTree = "<group>"; };
 		46022763261E64A800A9E913 /* iOSLifecycleEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSLifecycleEvents.swift; sourceTree = "<group>"; };
 		4602276B261E7BF900A9E913 /* iOSDelegation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSDelegation.swift; sourceTree = "<group>"; };
 		46022770261F7A4800A9E913 /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
@@ -211,7 +225,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				10FCDB36296C325300F502FE /* Sovran in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +251,18 @@
 				10D08157296CC715001BAABA /* Info.plist */,
 			);
 			path = IOSApp;
+			sourceTree = "<group>";
+		};
+		10E1C9DE2D41023D001596E4 /* Sovran */ = {
+			isa = PBXGroup;
+			children = (
+				10E1C9D92D41023D001596E4 /* Action.swift */,
+				10E1C9DA2D41023D001596E4 /* SovranState.swift */,
+				10E1C9DB2D41023D001596E4 /* Store.swift */,
+				10E1C9DC2D41023D001596E4 /* Subscriber.swift */,
+				10E1C9DD2D41023D001596E4 /* Testing.swift */,
+			);
+			path = Sovran;
 			sourceTree = "<group>";
 		};
 		4621082D2609206D00EBC4A8 /* Support */ = {
@@ -321,6 +346,7 @@
 		A31A16A325780A8D00C9CDDF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				10E1C9DE2D41023D001596E4 /* Sovran */,
 				967C40ED259A7311008EB0B6 /* HTTPClient.swift */,
 				A31A16A425780E8D00C9CDDF /* JSON.swift */,
 				A3AEE1492580208E002386EB /* iso8601.swift */,
@@ -456,7 +482,6 @@
 			);
 			name = Journify;
 			packageProductDependencies = (
-				10FCDB35296C325300F502FE /* Sovran */,
 			);
 			productName = Segment;
 			productReference = "Segment::Segment::Product" /* Journify.framework */;
@@ -518,7 +543,6 @@
 			);
 			mainGroup = OBJ_5;
 			packageReferences = (
-				10FCDB34296C325300F502FE /* XCRemoteSwiftPackageReference "Sovran-Swift" */,
 			);
 			productRefGroup = OBJ_14 /* Products */;
 			projectDirPath = "";
@@ -579,6 +603,11 @@
 				A31A16342576B7AF00C9CDDF /* Types.swift in Sources */,
 				46A018DA25E97FDF00F9CCD8 /* AppleUtils.swift in Sources */,
 				A31A16E12579779600C9CDDF /* Version.swift in Sources */,
+				10E1C9E42D41023D001596E4 /* Testing.swift in Sources */,
+				10E1C9E52D41023D001596E4 /* Action.swift in Sources */,
+				10E1C9E62D41023D001596E4 /* SovranState.swift in Sources */,
+				10E1C9E72D41023D001596E4 /* Store.swift in Sources */,
+				10E1C9E82D41023D001596E4 /* Subscriber.swift in Sources */,
 				46210836260BBEE400EBC4A8 /* DeviceToken.swift in Sources */,
 				9692724E25A4E5B7009B5298 /* Startup.swift in Sources */,
 				4663C729267A799100ADDD1A /* QueueTimer.swift in Sources */,
@@ -608,6 +637,11 @@
 				102848C929A7AE38006F54EE /* MemoryLeak_Tests.swift in Sources */,
 				46F7486026C720F60042798E /* ObjC_Tests.swift in Sources */,
 				OBJ_31 /* XCTestManifests.swift in Sources */,
+				10E1C9DF2D41023D001596E4 /* Testing.swift in Sources */,
+				10E1C9E02D41023D001596E4 /* Action.swift in Sources */,
+				10E1C9E12D41023D001596E4 /* SovranState.swift in Sources */,
+				10E1C9E22D41023D001596E4 /* Store.swift in Sources */,
+				10E1C9E32D41023D001596E4 /* Subscriber.swift in Sources */,
 				46B1AC6927346D3D00846DE8 /* StressTests.swift in Sources */,
 				4658175425BA4C20006B2809 /* HTTPClient_Tests.swift in Sources */,
 				46210811260538BE00EBC4A8 /* KeyPath_Tests.swift in Sources */,
@@ -1086,25 +1120,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		10FCDB34296C325300F502FE /* XCRemoteSwiftPackageReference "Sovran-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/segmentio/Sovran-Swift.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		10FCDB35296C325300F502FE /* Sovran */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 10FCDB34296C325300F502FE /* XCRemoteSwiftPackageReference "Sovran-Swift" */;
-			productName = Sovran;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
