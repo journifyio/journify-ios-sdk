@@ -20,12 +20,48 @@ jobs:
             uses: arduino/setup-task@v1
             with:
               repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+          - name: Version
+            uses: paulhatch/semantic-version@v4.0.2
+            id: version
+            with:
+              tag_prefix: ""
 
-          - name: Latest Tag
-            id: tag
-            run: |
-              tag=$(git describe --tags --abbrev=0)
-              echo "latest_tag=$tag" >> "$GITHUB_OUTPUT"
+          - name: Slack notification - Releasing
+            uses: slackapi/slack-github-action@v1.23.0
+            with:
+                channel-id: 'C03KN9Q2S7P'
+                payload: |
+                    {
+                    "text": "*Journify-ios-sdk*: Creating a New Release with TAG *${{ steps.version.outputs.version_tag }}* ..."
+                    }
+            env:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
           - name: Release
-            run: task release TAG=${{ steps.tag.outputs.latest_tag }}
+            run: task release TAG=${{ steps.version.outputs.version_tag }}
+          
+          - name: Slack notification - Released
+            uses: slackapi/slack-github-action@v1.23.0
+            with:
+                channel-id: 'C03KN9Q2S7P'
+                payload: |
+                    {
+                    "text": "*Journify-ios-sdk*: New Release created with TAG *${{ steps.version.outputs.version_tag }}* :tada:!"
+                    }
+            env:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    
+        
+          - name: Slack notification - Release failed
+            uses: slackapi/slack-github-action@v1.23.0
+            if: failure()
+            with:
+                channel-id: 'C03KN9Q2S7P'
+                payload: |
+                    {
+                    "text": "<!here> *Journify-ios-sdk*: :x: Failed to create new  Release with TAG *${{ steps.version.outputs.version_tag }}* :cry:!"
+                    }
+            env:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    
