@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Sovran
 
 // MARK: - Event Types
 
