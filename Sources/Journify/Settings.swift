@@ -65,6 +65,16 @@ public struct Settings: Codable {
                 result = try JSONDecoder().decode(T.self, from: jsonData)
             } catch {
                 print("Failed to convert json: \(error.localizedDescription)")
+                if let dict = settings[key] as? [String: Any], // Ensure it's a dictionary
+                   let eventMappingsArray = dict["event_mappings"] as? [[String: Any]] { // Extract array
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: eventMappingsArray, options: .prettyPrinted)
+                        result = try JSONDecoder().decode(T.self, from: jsonData) // ✅ Decode as array
+                    } catch {
+                        print("Failed to convert JSON: \(error.localizedDescription)")
+                    }
+                    return result
+                }
                 return nil
             }
         }
