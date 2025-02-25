@@ -60,26 +60,12 @@ public struct Settings: Codable {
     public func integrationSettings<T: Codable>(forKey key: String) -> T? {
         var result: T? = nil
         guard let settings = integrations?.dictionaryValue else { return nil }
-        if let rawValue = settings[key] {
-            if let dict = rawValue as? [String: Any], // Case 1: settings[key] is a dictionary with "event_mappings" key
-               let eventMappingsArray = dict["event_mappings"] as? [[String: Any]] {
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: eventMappingsArray, options: .prettyPrinted)
-                    result = try JSONDecoder().decode(T.self, from: jsonData) // Decode directly into an array of EventMapping
-                } catch {
-                    print("Failed to convert JSON (Dictionary Case): \(error.localizedDescription)")
-                }
-            }
-            else if let eventMappingsArray = rawValue as? [[String: Any]] { // Case 2: settings[key] is directly an array
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: eventMappingsArray, options: .prettyPrinted)
-                    result = try JSONDecoder().decode(T.self, from: jsonData) // Decode directly into an array of EventMapping
-                } catch {
-                    print("Failed to convert JSON (Array Case): \(error.localizedDescription)")
-                }
-            }
-            else {
-                print("Failed to cast settings[key] to expected format")
+        if let dict = settings[key], let jsonData = try? JSONSerialization.data(withJSONObject: dict) {
+            do {
+                result = try JSONDecoder().decode(T.self, from: jsonData)
+            } catch {
+                print("Failed to convert json: \(error.localizedDescription)")
+                return nil
             }
         }
         return result
